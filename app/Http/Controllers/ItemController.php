@@ -90,7 +90,7 @@ class ItemController extends Controller
     public function addToCheckout(Request $request, $id)
     {
         $book = Book::findOrFail($id);
-
+        dd(Session::all());
         $checkout = session()->get('checkout', []);
         if (isset($checkout[$id])) {
             $checkout[$id]['quantity']++; // add quantity to existing item
@@ -149,7 +149,7 @@ class ItemController extends Controller
                 $bookToStock->save();
             }
         }
-        Mail::to('juromefernando@gmail.com')->send(new Checkout($checkout));
+        // Mail::to('juromefernando@gmail.com')->send(new Checkout($checkout));
         session()->forget('checkout');
     
         return redirect()->route('getItems')->with('success', 'Books borrowed successfully!');
