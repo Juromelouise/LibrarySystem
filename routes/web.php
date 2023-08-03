@@ -36,7 +36,7 @@ Route::get('/report', [DashboardController::class, 'index'])->name('most.used');
 Route::get('/borrowed', [Itemcontroller::class, 'borrow'])->name('borrow');
 Route::get('/reduce/{id}', [Itemcontroller::class, 'reduceQuantity'])->name('reduce');
 Route::get('/add/{id}/quantity', [ItemController::class, 'addQuantity']);
-Route::patch('/book/restore/{id}', [ItemController::class, 'restore'])->name('book.restore');
+// Route::patch('/book/restore/{id}', [ItemController::class, 'restore'])->name('book.restore');
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
 Route::middleware(['auth'])->group(function () {

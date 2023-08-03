@@ -192,33 +192,33 @@ class ItemController extends Controller
 
 
 
-    public function restore($id)
-    {
-        $book = Book::withTrashed()->find($id);
+    // public function restore($id)
+    // {
+    //     $book = Book::withTrashed()->find($id);
 
-        if (!$book) {
-            return redirect()->back()->with('error', 'Book not found!');
-        }
+    //     if (!$book) {
+    //         return redirect()->back()->with('error', 'Book not found!');
+    //     }
 
-        $book->restore();
+    //     $book->restore();
 
-        // $borrow = Borrow::withTrashed()->find($id);
+    //     $borrow = Borrow::withTrashed()->find($id);
 
-        // if (!$borrow) {
-        //     return redirect()->back()->with('error', 'Borrow not found!');
-        // }
+    //     if (!$borrow) {
+    //         return redirect()->back()->with('error', 'Borrow not found!');
+    //     }
 
-        // $stock = Stock::where('book_id', $borrow->book_id)->first();
+    //     $stock = Stock::where('book_id', $borrow->book_id)->first();
 
-        // if (!$stock) {
-        //     return redirect()->back()->with('error', 'Stock not found!');
-        // }
+    //     if (!$stock) {
+    //         return redirect()->back()->with('error', 'Stock not found!');
+    //     }
 
-        // $stock->stock += $borrow->quantity; // Add the quantity of the restored borrow to the stock
-        // $stock->save();
+    //     $stock->stock += $borrow->quantity; // Add the quantity of the restored borrow to the stock
+    //     $stock->save();
 
-        return redirect()->back()->with('success', 'Book restored successfully!');
-    }
+    //     return redirect()->back()->with('success', 'Book restored successfully!');
+    // }
 
     public function borrow()
     {

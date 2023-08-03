@@ -7,7 +7,7 @@ use App\DataTables\StockDataTable;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Genre;
-use DB;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -188,7 +188,7 @@ class BookController extends Controller
     }
 
     public function booktable(BookDataTable $dataTable)
-    {   
+    {
         return $dataTable->render("admin.book");
     }
 
