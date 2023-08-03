@@ -50,7 +50,6 @@
                                     <a href="{{ route('checkout.remove', $item['id']) }}" class="btn btn-danger">Remove</a>
                                     {{-- <a href="{{ route('reduce', $item['id']) }}" class="btn btn-danger">Reduce Quantity by
                                         1</a> --}}
-
                                 </td>
                             </tr>
                         @endforeach
@@ -96,8 +95,8 @@
     <script src="{{ asset('/js/checkout.js') }}" defer></script>
 @endsection
 
-@section('scripts')
-    {{-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+{{-- @section('scripts')
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
-    </script> --}}
-@endsection
+    </script>
+@endsection --}}

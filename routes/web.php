@@ -5,6 +5,7 @@ use App\Http\Controllers\Authorcontroller;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\OrderConfirmationController;
 use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
@@ -50,4 +51,5 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('book', 'BookController');
     Route::resource('user', 'UserController');
     Route::resource('stocks', 'StockController');
+    Route::get('/confirmation', 'App\Http\Controllers\OrderConfirmationController@orderconfirmation')->name('oder.confirmation');
 });

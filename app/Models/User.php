@@ -62,15 +62,5 @@ class User extends Authenticatable
         return $this->hasMany(Borrow::class);
     }
 
-    /**
-     * Define the "books" relationship through the "borrows" relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function books()
-    {
-        return $this->belongsToMany(Book::class, 'borrows');
-    }
-
     public $timestamps = false;
 }
