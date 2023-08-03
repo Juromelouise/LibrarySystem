@@ -4,23 +4,13 @@
     New York Sanctuary
 @endsection
 
+@section('styles')
+    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> --}}
+@endsection
+
 @section('content')
-    <style>
-        #checkoutTable {
-            text-align: center;
-            margin-top: 50px;
-            letter-spacing: 2px;
-        }
-
-        #checkoutTable thead tr th {
-            font-weight: 500;
-            letter-spacing: 2px;
-        }
-
-        #checkoutTable tbody button {
-            font-weight: 900;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/checkout.css') }}">
     @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('success') }}
@@ -56,12 +46,6 @@
                                     <span id="quantity">{{ $item['quantity'] }}</span>
                                     <button class="btn btn-success addQuantity" data-id="{{ $item['id'] }}">+</button>
                                 </td>
-                                {{-- <td>
-                                    <input type="date" class="form-control" id="return_date" name="return_date"
-                                        min="{{ Carbon\Carbon::now()->addDays(1)->format('Y-m-d') }}"
-                                        max="{{ Carbon\Carbon::now()->addDays(30)->format('Y-m-d') }}"
-                                        value="{{ $item['due_date'] }}" required>
-                                </td> --}}
                                 <td>
                                     <a href="{{ route('checkout.remove', $item['id']) }}" class="btn btn-danger">Remove</a>
                                     {{-- <a href="{{ route('reduce', $item['id']) }}" class="btn btn-danger">Reduce Quantity by
@@ -73,10 +57,10 @@
                     </tbody>
                 </table>
             </div>
-
             <div class="row">
                 <div class="col-sm-6 col-md-6 col-md-offset-3 col-sm-offset-3">
-                    <a href="{{ route('checkout') }}" type="button" class="btn btn-success">Checkout</a>
+                    <button type="button" class="btn btn-success" data-toggle="modal"
+                        data-target="#checkoutModal">Borrow</button>
                 </div>
             </div>
         @else
@@ -86,6 +70,34 @@
                 </div>
             </div>
     @endif
-
+    <div class="modal fade" id="checkoutModal" tabindex="-1" role="dialog" aria-labelledby="checkoutModalTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="checkoutModalLongTitle">Borrow</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label for="return_date">Due Date</label>
+                    <input type="date" class="form-control" id="return_date" name="return_date"
+                        min="{{ Carbon\Carbon::now()->addDays(1)->format('Y-m-d') }}"
+                        max="{{ Carbon\Carbon::now()->addDays(30)->format('Y-m-d') }}" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="borrowSubmit">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="{{ asset('/js/checkout.js') }}" defer></script>
+@endsection
+
+@section('scripts')
+    {{-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+    </script> --}}
 @endsection

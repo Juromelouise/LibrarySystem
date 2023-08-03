@@ -1,0 +1,14 @@
+#checkoutTable {
+    text-align: center;
+    margin-top: 50px;
+    letter-spacing: 2px;
+}
+
+#checkoutTable thead tr th {
+    font-weight: 500;
+    letter-spacing: 2px;
+}
+
+#checkoutTable tbody button {
+    font-weight: 900;
+}

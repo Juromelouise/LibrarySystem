@@ -10,12 +10,12 @@ class Book extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    
+
     protected $fillable = ['author_id', 'title', 'date_released'];
-    
+
     public function borrows()
     {
-        return $this->hasMany(Borrow::class);
+        return $this->belongsToMany(Borrow::class)->withPivot('quantity');
     }
 
     public static function boot()
@@ -27,17 +27,17 @@ class Book extends Model
         });
     }
     public function author()
-{
-    return $this->belongsTo(Author::class);
-}  
-public function genre()
-{
-    return $this->belongsTo(Genre::class);
-}  
-public function stock()
-{
-    return $this->hasOne(Stock::class);
-}
+    {
+        return $this->belongsTo(Author::class);
+    }
+    public function genre()
+    {
+        return $this->belongsTo(Genre::class);
+    }
+    public function stock()
+    {
+        return $this->hasOne(Stock::class);
+    }
     public function users()
     {
         return $this->belongsToMany(User::class, 'borrows');

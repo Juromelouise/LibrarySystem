@@ -11,11 +11,11 @@ class Borrow extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = ['book_id', 'user_id', 'due_date'];
+    protected $fillable = ['user_id', 'due_date', 'penalty_fee', 'status'];
 
-    public function book()
+    public function books()
     {
-        return $this->belongToMany(Book::class);
+        return $this->belongsToMany(Book::class)->withPivot('quantity');
     }
     public function user()
     {

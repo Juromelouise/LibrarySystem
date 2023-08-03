@@ -38,7 +38,6 @@ Route::get('/add/{id}/quantity', [ItemController::class, 'addQuantity']);
 Route::patch('/book/restore/{id}', [ItemController::class, 'restore'])->name('book.restore');
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
-
 Route::middleware(['auth'])->group(function () {
     Route::get('/transactions/download', 'DashboardController@download')->name('transactions.download');
     Route::get('/transactions/history', 'DashboardController@history')->name('user.history');

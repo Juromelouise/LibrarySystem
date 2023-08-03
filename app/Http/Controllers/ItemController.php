@@ -8,12 +8,15 @@ use App\Models\User;
 use App\Models\Stock;
 use App\Mail\Checkout;
 use Barryvdh\Debugbar\Facades\Debugbar;
+use Barryvdh\Debugbar\Twig\Extension\Debug;
 use Mail;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\DB;
 
 class ItemController extends Controller
 {
@@ -126,34 +129,65 @@ class ItemController extends Controller
 
         return redirect()->back()->with('success', 'Book removed from checkout successfully!');
     }
-    public function checkout()
+    public function checkout(Request $request)
     {
         $checkout = session()->get('checkout', []);
 
-        foreach ($checkout as $book) {
-            $borrowedBook = new Borrow();
-            $borrowedBook->user_id = Auth::check() ? Auth::user()->id : null;
-            $borrowedBook->book_id = $book['id'];
-            $borrowedBook->due_date = $book['due_date'];
-            $borrowedBook->quantity = $book['quantity'];
-            $borrowedBook->save();
+        DB::beginTransaction();
+        try {
+            $borrow = new Borrow;
+            $borrow->user_id = Auth::check() ? Auth::user()->id : null;
+            $borrow->due_date = $request->returnDate;
+            $borrow->penalty_fee = 0;
+            $borrow->status = "pending";
+            $borrow->save();
 
-            $bookToUpdate = Book::find($book['id']);
-            if ($bookToUpdate) {
-                $bookToUpdate->nums += $book['quantity']; // Increment the nums column
+            foreach ($checkout as $bookID => $value) {
+                Debugbar::info($value, $bookID);
+                $borrow->books()->attach($bookID, ['quantity' => $value["quantity"]]);
+
+                $bookToUpdate = Book::find($bookID);
+                $bookToUpdate->nums += $value["quantity"];
                 $bookToUpdate->save();
-            }
 
-            $bookToStock = Stock::where('book_id', $book['id'])->first();
-            if ($bookToStock) {
-                $bookToStock->stock -= $book['quantity']; // Decrement the stock column
-                $bookToStock->save();
+                $bookToStock = Stock::where('book_id', $bookID)->first();
+                if ($bookToStock) {
+                    $bookToStock->stock -= $value["quantity"]; // Decrement the stock column
+                    $bookToStock->save();
+                }
             }
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Debugbar::info($e);
         }
-        // Mail::to('juromefernando@gmail.com')->send(new Checkout($checkout));
+        DB::commit();
         session()->forget('checkout');
+        // foreach ($checkout as $book) {
+        //     $borrowedBook = new Borrow();
+        //     $borrowedBook->user_id = Auth::check() ? Auth::user()->id : null;
+        //     $borrowedBook->book_id = $book['id'];
+        //     $borrowedBook->due_date = $book['due_date'];
+        //     $borrowedBook->quantity = $book['quantity'];
+        //     $borrowedBook->save();
 
-        return redirect()->route('getItems')->with('success', 'Books borrowed successfully!');
+        //     $bookToUpdate = Book::find($book['id']);
+        //     if ($bookToUpdate) {
+        //         $bookToUpdate->nums += $book['quantity']; // Increment the nums column
+        //         $bookToUpdate->save();
+        //     }
+
+        //     $bookToStock = Stock::where('book_id', $book['id'])->first();
+        //     if ($bookToStock) {
+        //         $bookToStock->stock -= $book['quantity']; // Decrement the stock column
+        //         $bookToStock->save();
+        //     }
+        // }
+        // // Mail::to('juromefernando@gmail.com')->send(new Checkout($checkout));
+
+
+
+
+        return response()->json([], 200, [], 0);
     }
 
 
@@ -185,9 +219,6 @@ class ItemController extends Controller
 
         return redirect()->back()->with('success', 'Book restored successfully!');
     }
-
-
-
 
     public function borrow()
     {
@@ -245,6 +276,7 @@ class ItemController extends Controller
             if ($quantity > 0) {
                 $checkout[$id]['quantity'] += 1;
                 session()->put('checkout', $checkout);
+                Debugbar::info($checkout[$id]['quantity']);
                 return response()->json(["quantity" => $checkout[$id]['quantity']]);
             } else {
                 return response()->json(["message" => "Error po!"]);
