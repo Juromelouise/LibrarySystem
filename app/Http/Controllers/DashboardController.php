@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Book;
 use App\Models\Borrow;
-use View;
-use Auth;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Auth;
 use PDF;
 
 class DashboardController extends Controller
@@ -25,9 +25,13 @@ class DashboardController extends Controller
 
     public function history()
     {
+        if(Auth::check() && Auth::user()->role === '1'){
+            $transactions = Borrow::with(['user','books'])->get();
+        }
+        else{
         $user = Auth::user();
-        $transactions = Borrow::where('user_id', $user->id)->get();
-
+        $transactions = Borrow::with(['user','books'])->where('user_id',$user->id)->get();
+        }
         return view::make('history.studenthistory', compact('transactions'));
     }
 

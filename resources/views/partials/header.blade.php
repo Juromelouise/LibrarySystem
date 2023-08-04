@@ -31,49 +31,36 @@
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             {{ __('Logout') }}
                         </a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            @csrf
-                        </form>
                     @endguest
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
                 </div>
             </li>
             @if (Auth::check() && Auth::user()->role === '1')
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="adminPanelDropdown" role="button"
+                    <a class="nav-link dropdown-toggle" href="#" id="crudDropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-user-circle"></i>
-                        Admin Panel
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="adminPanelDropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="crudDropdown" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            CRUD
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="crudDropdown">
-                            <a class="dropdown-item" href="{{ route('genre.index') }}">Genre</a>
-                            <a class="dropdown-item" href="{{ route('author.index') }}">Author</a>
-                            <a class="dropdown-item" href="{{ route('book.index') }}">Book</a>
-                            <a class="dropdown-item" href="{{ route('stocks.index') }}">Stock</a>
-                        </div>
+                        CRUD
+                    </a>    
+                    <div class="dropdown-menu" aria-labelledby="crudDropdown">
+                        <a class="dropdown-item" href="{{ route('genre.index') }}">Genre</a>
+                        <a class="dropdown-item" href="{{ route('author.index') }}">Author</a>
+                        <a class="dropdown-item" href="{{ route('book.index') }}">Book</a>
+                        <a class="dropdown-item" href="{{ route('stocks.index') }}">Stock</a>
+                        <a class="dropdown-item" href="{{ route('order.confirmation') }}">Confrim orders</a>
                         <div class="dropdown-divider"></div>
-                        <a class="nav-link dropdown-toggle" href="#" id="dataTablesDropdown" role="button"
+                        <a class="nav-link dropdown-toggle" href="#" id="nestedDropdown" role="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             DataTables
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="dataTablesDropdown">
+                        <div class="dropdown-menu" aria-labelledby="nestedDropdown">
                             <a class="dropdown-item" href="{{ route('books.table') }}">Book</a>
                             <a class="dropdown-item" href="{{ route('stock.table') }}">Stock</a>
                             <a class="dropdown-item" href="{{ route('author.table') }}">Author</a>
                         </div>
-                        <a class="nav-link dropdown-toggle" href="#" id="orderConfirmationDropdown" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Order Confirmation
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="orderConfirmationDropdown">
-                            <a class="dropdown-item" href="{{ route('order.confirmation') }}">Index</a>
-                        </div>
                     </div>
-                </li>
             @endif
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('user.history') }}">
@@ -93,8 +80,7 @@
                 <a class="nav-link" href="{{ route('viewCheckout') }}">
                     <i class="fa fa-book" aria-hidden="true" style="font-size:20px;color:#A4E9D5"></i>
                     <span class="text-color" style="color: #A4E9D5;">Checkout</span>
-                    <span
-                        class="badge badge-secondary">{{ Session::has('checkout') ? array_sum(array_column(Session::get('checkout'), 'quantity')) : '' }}</span>
+                    <span class="badge badge-secondary">{{ Session::has('checkout') ? array_sum(array_column(Session::get('checkout'), 'quantity')) : '' }}</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -105,8 +91,7 @@
             </li>
         </ul>
         <form action="{{ route('books.search') }}" method="GET" class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" name="query" placeholder="Search"
-                aria-label="Search">
+            <input class="form-control mr-sm-2" type="search" name="query" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </div>

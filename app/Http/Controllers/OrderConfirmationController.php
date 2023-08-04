@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Borrow;
 use App\Models\book;
 use App\Models\user;
+use Carbon\Carbon;
 use View;
 
 class OrderConfirmationController extends Controller
@@ -30,8 +31,19 @@ public function cancel($id){
 }
 
 public function returnbook($id){
+        
         $borrow = Borrow::find($id);
-        $borrow->status = 'returned';
+
+        $returndate = Carbon::now();
+        $datedue = $borrow->due_date;
+        if($returndate <= $datedue) {
+                $status = "returned";
+        }
+        else{
+                $status = "returned late";
+        }
+        // dd($status);
+        $borrow->status = $status;
         $borrow->save();
         return redirect()->back();
 }

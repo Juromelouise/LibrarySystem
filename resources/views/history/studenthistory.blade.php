@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+{{-- {{dd($transactions)}} --}}
     <div class="container">
         <h1>Transaction History</h1>
         
@@ -19,8 +20,17 @@
                 @foreach ($transactions as $transaction)
                     <tr>
                         <td>{{ $transaction->created_at }}</td>
-                        <td>{{ $transaction->book->title }}</td>
-                        <td>{{ $transaction->quantity }}</td>
+                        <td>
+                            @foreach($transaction->books as $transac)
+                            {{ $transac->title }}
+                            <br><br>
+                            @endforeach
+                        </td>
+                        <td>
+                            @foreach($transaction->books as $transac)
+                            {{ $transac->pivot->quantity }}
+                            <br><br>
+                            @endforeach</td>
                         <td>${{ $transaction->penalty }}</td>
                     </tr>
                 @endforeach
