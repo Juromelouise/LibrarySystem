@@ -131,6 +131,7 @@ class ItemController extends Controller
     }
     public function checkout(Request $request)
     {
+        // if(Auth::check()){
         $checkout = session()->get('checkout', []);
 
         DB::beginTransaction();
@@ -162,6 +163,10 @@ class ItemController extends Controller
         }
         DB::commit();
         session()->forget('checkout');
+        // }
+        // else{
+        //     return redirect()->route('login');
+        // }
         // foreach ($checkout as $book) {
         //     $borrowedBook = new Borrow();
         //     $borrowedBook->user_id = Auth::check() ? Auth::user()->id : null;
@@ -222,34 +227,47 @@ class ItemController extends Controller
 
     public function borrow()
     {
+
         if (Auth::check()) {
             $user = Auth::user()->id;
-            $borrowedBooks = Borrow::where('user_id', $user)->get();
-            $borrowedBookIds = $borrowedBooks->pluck('book_id')->toArray();
-            $books = Book::query()
-                ->join('borrows', 'books.id', '=', 'borrows.book_id')
-                ->whereIn('books.id', $borrowedBookIds)
-                ->where('borrows.user_id', $user)
-                ->whereNotNull('due_date')
-                ->get(['books.id', 'title', 'imgpath', 'due_date', 'penalty']);
+            $borrowbooks = Borrow::with(['user', 'books'])
+                ->where('user_id', $user)
+                ->where('status', "on borrow")
+                ->get();
 
-
-            foreach ($borrowedBooks as $borrow) {
-                $dueDate = $borrow->due_date;
-                $now = Carbon::now();
-                if ($now->gt(Carbon::parse($dueDate))) {
-                    $daysLate = $now->diffInDays(Carbon::parse($dueDate));
-                    $penalty = $daysLate * 5;
-                    if ($borrow->penalty == 0) {
-                        $borrow->penalty = $penalty;
-                        $borrow->save();
-                    }
-                }
-            }
-            return view('return.index', compact('books'));
+            // dd($borrowbooks);
+            return view('return.index', compact('borrowbooks'));
         } else {
             return redirect()->route('login');
         }
+        // if (Auth::check()) {
+        //     $user = Auth::user()->id;
+        //     $borrowedBooks = Borrow::where('user_id', $user)->get();
+        //     $borrowedBookIds = $borrowedBooks->pluck('book_id')->toArray();
+        //     $books = Book::query()
+        //         ->join('borrows', 'books.id', '=', 'borrows.book_id')
+        //         ->whereIn('books.id', $borrowedBookIds)
+        //         ->where('borrows.user_id', $user)
+        //         ->whereNotNull('due_date')
+        //         ->get(['books.id', 'title', 'imgpath', 'due_date', 'penalty']);
+
+
+        //     foreach ($borrowedBooks as $borrow) {
+        //         $dueDate = $borrow->due_date;
+        //         $now = Carbon::now();
+        //         if ($now->gt(Carbon::parse($dueDate))) {
+        //             $daysLate = $now->diffInDays(Carbon::parse($dueDate));
+        //             $penalty = $daysLate * 5;
+        //             if ($borrow->penalty == 0) {
+        //                 $borrow->penalty = $penalty;
+        //                 $borrow->save();
+        //             }
+        //         }
+        //     }
+        //     return view('return.index', compact('books'));
+        // } else {
+        //     return redirect()->route('login');
+        // }
     }
     public function reduceQuantity($id)
     {
