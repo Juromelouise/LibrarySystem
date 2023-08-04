@@ -12,7 +12,13 @@ class OrderConfirmationController extends Controller
 {
     public function orderconfirmation(){
             $PendingBooks = Borrow::with(['user','books'])->get();
-            dd($PendingBooks);
+            // dd($PendingBooks);
             return View::make('admin.order_confirmation', compact('PendingBooks'));
     }
+    public function confirm($id){
+        $borrow = Borrow::find($id);
+        $borrow->status = 'on borrow';
+        $borrow->save();
+        return redirect()->back();
+}
 }

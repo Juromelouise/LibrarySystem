@@ -51,5 +51,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('book', 'BookController');
     Route::resource('user', 'UserController');
     Route::resource('stocks', 'StockController');
+    Route::get('/confirm/{id}', 'App\Http\Controllers\OrderConfirmationController@confirm')->name('order.confirm');
     Route::get('/confirmation', 'App\Http\Controllers\OrderConfirmationController@orderconfirmation')->name('oder.confirmation');
 });
