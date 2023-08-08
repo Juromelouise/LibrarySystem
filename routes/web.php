@@ -7,6 +7,7 @@ use App\Http\Controllers\StockController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderConfirmationController;
 use Illuminate\Support\Facades\Auth;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -38,7 +39,7 @@ Route::get('/reduce/{id}', [Itemcontroller::class, 'reduceQuantity'])->name('red
 Route::get('/add/{id}/quantity', [ItemController::class, 'addQuantity']);
 // Route::patch('/book/restore/{id}', [ItemController::class, 'restore'])->name('book.restore');
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
-
+Route::view('/authors', 'author.index');
 Route::middleware(['auth'])->group(function () {
     Route::get('/transactions/download', 'DashboardController@download')->name('transactions.download');
     Route::get('/transactions/history', 'DashboardController@history')->name('user.history');
@@ -46,7 +47,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/booktable', 'App\Http\Controllers\BookController@booktable')->name('books.table');
     Route::get('/stocktable', 'App\Http\Controllers\BookController@stocktable')->name('stock.table');
     Route::get('/authortable', 'App\Http\Controllers\AuthorController@authortable')->name('author.table');
-    Route::resource('author', 'AuthorController');
+   
     Route::resource('genre', 'GenreController');
     Route::resource('book', 'BookController');
     Route::resource('user', 'UserController');

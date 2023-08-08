@@ -15,8 +15,11 @@ class StockController extends Controller
      */
     public function index()
     {
-        $stocks = DB::table('books')
-            ->join('stocks', 'books.id', '=', 'book_id')->get();
+        // $books = Book::with(['author','genre'])->get();
+        $stocks = Stock::with(['book'])->get();
+
+        // $stocks = DB::table('books')
+        //     ->join('stocks', 'books.id', '=', 'book_id')->get();
         return View::make('stock.index', compact('stocks'));
     }
 

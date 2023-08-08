@@ -18,13 +18,15 @@
 
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url('src/css/app.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     @yield('styles')
+    
 </head>
 
 <body>
     @include('partials.header')
 
-    <div class="container">
+    <div class="container-fluid">
         @yield('content')
     </div>
 

@@ -28,7 +28,7 @@
                             <tbody>
                                 @foreach ($stocks as $stock)
                                     <tr>
-                                        <td>{{ $stock->title }}</td>
+                                        <td>{{ $stock->book->title }}</td>
                                         <td>{{ $stock->stock }}</td>
                                         <td><a href="{{ route('stocks.edit', $stock->id) }}"><i class="fas fa-edit"></i></a>
                                         </td>

@@ -78,14 +78,22 @@ class ItemController extends Controller
 
     public function getItems()
     {
-        $books = Book::select('books.id as id', 'title', 'date_released', 'genre_name', 'imgpath', 'name', 'deleted_at', 'stock')
-            ->join('authors as a', 'a.id', '=', 'books.author_id')
-            ->join('genres as g', 'g.id', '=', 'books.genre_id')
-            ->join('stocks as s', 's.book_id', '=', 'books.id')
-            ->withTrashed()
-            // ->whereNull('books.deleted_at')
-            ->where('s.stock', '>', 0) // Add this condition to fetch books with stock
+
+        $books = Book::with(['author', 'genre', 'stock'])
+            ->whereHas('stock', function ($query) {
+                $query->where('stock', '>', 0);
+            })
             ->get();
+
+        // dd($books);
+        // $books = Book::select('books.id as id', 'title', 'date_released', 'genre_name', 'imgpath', 'name', 'deleted_at', 'stock')
+        //     ->join('authors as a', 'a.id', '=', 'books.author_id')
+        //     ->join('genres as g', 'g.id', '=', 'books.genre_id')
+        //     ->join('stocks as s', 's.book_id', '=', 'books.id')
+        //     ->withTrashed()
+        //     // ->whereNull('books.deleted_at')
+        //     ->where('s.stock', '>', 0) // Add this condition to fetch books with stock
+        //     ->get();
 
         return view('dashboard.index', compact('books'));
     }
@@ -95,16 +103,15 @@ class ItemController extends Controller
         $book = Book::findOrFail($id);
 
         $checkout = session()->get('checkout', []);
-        // dd($checkout);
         if (isset($checkout[$id])) {
-            $checkout[$id]['quantity']++; // add quantity to existing item
+            $checkout[$id]['quantity']++;
         } else {
             $checkout[$id] = [
                 'id' => $book->id,
                 'img_path' => $book->imgpath,
                 'title' => $book->title,
                 'due_date' => Carbon::parse($request->input('return_date'))->toDateString(),
-                'quantity' => 1, // add quantity to new item
+                'quantity' => 1,
             ];
         }
 

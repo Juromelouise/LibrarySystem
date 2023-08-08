@@ -22,11 +22,12 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = DB::table('authors')
-            ->join('books', 'authors.id', '=', 'books.author_id')
-            ->join('genres', 'books.genre_id', '=', 'genres.id')
-            ->get();
-
+        $books = Book::with(['author','genre'])->get();
+        // $books = DB::table('authors')
+        //     ->join('books', 'authors.id', '=', 'books.author_id')
+        //     ->join('genres', 'books.genre_id', '=', 'genres.id')
+        //     ->get();
+        // dd($books);
         return View::make('book.index', compact('books'));
     }
 

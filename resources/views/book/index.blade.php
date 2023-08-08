@@ -34,8 +34,8 @@
         <tr>
             <td>{{$book->title}}</td>
             <td><img src="{{url($book->imgpath)}}" alt="" width="50px" height="50px"></td>
-            <td>{{$book->genre_name}}</td>
-            <td>{{$book->name}}</td>
+            <td>{{$book->genre->genre_name}}</td>
+            <td>{{$book->author->name}}</td>
             <td>{{$book->date_released}}</td>
             <td><a href="{{route('book.edit',$book->id)}}"><i class="fas fa-edit"></i></a>
             <form action="{{route('book.destroy',$book->id)}}" method="POST" style = "display:inline-block">

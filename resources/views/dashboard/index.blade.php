@@ -8,7 +8,6 @@
 <br>
 <div class="container">
   <div class="row">
-    {{-- {{dd(session();)}} --}}
     @foreach ($books->chunk(2) as $book)
       @foreach ($book as $item)
         <div class="col-sm-6 col-md-4">
@@ -16,10 +15,10 @@
             <img class="card-img-top" src="{{ $item->imgpath }}" alt="Book Cover" style="height: 450px; width: 100%; display: block;">
             <div class="card-body">
               <h4 class="card-title">{{ $item->title }}</h4>
-              <p class="card-text"><strong>Genre: </strong>{{ $item->genre_name }}</p>
-              <p class="card-text"><strong>Author: </strong>{{ $item->name }}</p>
+              <p class="card-text"><strong>Genre: </strong>{{ $item->genre->genre_name }}</p>
+              <p class="card-text"><strong>Author: </strong>{{ $item->author->name }}</p>
               <p class="card-text"> <strong>Date Released:</strong> {{ $item->date_released }}</p>
-              <p class="card-text"> <strong>Stocks:</strong> {{ $item->stock }}</p>
+              <p class="card-text"> <strong>Stocks:</strong> {{ $item->stock->stock }}</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
                   <a href="{{ route('item.addcheckout', ['id'=>$item->id]) }}" class="btn btn-sm btn-outline-secondary"><i class="fa fa-book" style="font-size:13px;color:red"></i> Add to Checkout</a>

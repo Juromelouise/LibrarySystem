@@ -15,7 +15,8 @@ class AuthorController extends Controller
     public function index()
     {
         $authors = Author::all();
-        return View::make('author.index', compact('authors'));
+        // return View::make('author.index', compact('authors'));
+        return response()->json($authors);
     }
 
     /**
@@ -36,7 +37,8 @@ class AuthorController extends Controller
         $author->gender = $request->gender;
         $author->age = $request->age;
         $author->save();
-        return redirect()->route('author.tables');
+        // return redirect()->route('author.tables');
+        return response()->json($author);
     }
 
     /**
@@ -53,7 +55,8 @@ class AuthorController extends Controller
     public function edit(string $id)
     {
         $author = Author::find($id);
-        return view('author.edit', compact('author'));
+        // return view('author.edit', compact('author'));
+        return response()->json($author);
     }
 
     /**
@@ -72,15 +75,16 @@ class AuthorController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
         Author::destroy($id);
-        return back();
+        // return back();
+        return response()->json([]);
     }
 
     public function authortable(AuthorDataTable $dataTable)
     {
-        
+
         return $dataTable->render("admin.author");
     }
 }

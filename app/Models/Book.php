@@ -39,8 +39,8 @@ class Book extends Model
     {
         return $this->hasOne(Stock::class);
     }
-    public function users()
-    {
-        return $this->belongsToMany(User::class, 'borrows');
-    }
+    // public function users()
+    // {
+    //     return $this->belongsToMany(User::class, 'borrows');
+    // }
 }
