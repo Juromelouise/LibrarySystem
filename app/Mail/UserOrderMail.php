@@ -37,7 +37,7 @@ class UserOrderMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'user.email',
+            view: 'email.email',
         );
     }
 

@@ -31,7 +31,7 @@ class Checkout extends Mailable
     public function build()
     {
         return $this->subject('Checkout')
-            ->view('admin.checkout_email')
+            ->view('email.checkout_email')
             ->with('checkoutItems', $this->checkoutItems);
     }
 }
