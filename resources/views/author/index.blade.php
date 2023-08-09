@@ -6,9 +6,9 @@
     <link rel="stylesheet" href="{{ asset('/css/author.css') }}">
 @endsection
 @section('content')
-    {{-- @if (Auth::user() && Auth::user()->role === '1') --}}
+    @if (Auth::user() && Auth::user()->role === '1')
     <div class="container-fluid">
-        <div class="alert alert-success alert-dismissible fade show" role="alert" style="display:none;position:absolute; top:9.5%; width: 95%;">
+        <div class="alert alert-success alert-dismissible fade show" role="alert" style="position:absolute; top:9.5%; width: 95%;">
             You should check in on some of those fields below.
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -17,21 +17,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                {{-- @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach --}}
-                            </ul>
-                        </div>
-                    @endif
-
                     <table id="authorsTable" class="table">
-                        {{-- <button class="btn btn-primary" data-toggle="modal" data-target="#modalCU" role="button" aria-disabled="true"
-                        style="width: 300px" id="create">Add
-                        Author</button> --}}
                         <thead>
                             <tr>
                                 <th scope="col">ID</th>
@@ -110,8 +96,8 @@
             </div>
         </div>
     </div>
-    {{-- @else
+    @else
         <>Access denied. You must be an admin to view this page.</p>
-    @endif --}}
+    @endif
     <script src="{{ asset('/js/author.js') }}"></script>
 @endsection

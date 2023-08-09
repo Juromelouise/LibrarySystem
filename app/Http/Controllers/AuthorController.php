@@ -69,7 +69,8 @@ class AuthorController extends Controller
         $author->gender = $request->gender;
         $author->age = $request->age;
         $author->save();
-        return redirect()->route('author.index');
+        // return redirect()->route('author.index');
+        return response()->json($author);
     }
 
     /**

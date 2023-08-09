@@ -1,0 +1,22 @@
+.justify-content-center {
+    margin-top: 50px;
+    margin-right: 0px !important;
+}
+
+#create {
+    margin: 10px;
+}
+
+#genresTable_filter {
+    margin: 10px;
+}
+
+.action-buttons{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+#genreTable th,
+#genreTable td{
+    text-align: center;
+}
