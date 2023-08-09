@@ -28,7 +28,8 @@ class BookController extends Controller
         //     ->join('genres', 'books.genre_id', '=', 'genres.id')
         //     ->get();
         // dd($books);
-        return View::make('book.index', compact('books'));
+        // return View::make('book.index', compact('books'));
+        return response()->json($books);
     }
 
     /**
@@ -40,7 +41,8 @@ class BookController extends Controller
     {
         $authors = Author::all();
         $genres = Genre::all();
-        return View::make('book.create', compact('authors', 'genres'));
+        // return View::make('book.create', compact('authors', 'genres'));
+        return response()->json(["authors"=> $authors, "genres" => $genres]);
     }
 
     /**
@@ -51,39 +53,41 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|min:5|max:20',
-            'author_id' => 'required',
-            'genre_id' => 'required',
-            'date_released' => 'required',
-            'imgpath' => 'required|image|mimes:jpeg,jpg,png,gif',
-        ]);
+        // $validator = Validator::make($request->all(), [
+        //     'title' => 'required|min:5|max:20',
+        //     'author_id' => 'required',
+        //     'genre_id' => 'required',
+        //     'date_released' => 'required',
+        //     'imgpath' => 'required|image|mimes:jpeg,jpg,png,gif',
+        // ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
+        // if ($validator->fails()) {
+        //     return redirect()->back()->withErrors($validator)->withInput();
+        // }
 
         $book = new Book;
 
-        if ($request->file()) {
-            $fileName = time() . '_' . $request->file('imgpath')->getClientOriginalName();
+        // if ($request->file()) {
+        //     $fileName = time() . '_' . $request->file('imgpath')->getClientOriginalName();
 
-            $path = Storage::putFileAs(
-                'public/images',
-                $request->file('imgpath'),
-                $fileName
-            );
-            $book->imgpath = '/storage/images/' . $fileName;
-        }
+        //     $path = Storage::putFileAs(
+        //         'public/images',
+        //         $request->file('imgpath'),
+        //         $fileName
+        //     );
+        //     $book->imgpath = '/storage/images/' . $fileName;
+        // }
 
         $book->title = $request->title;
         $book->author_id = $request->author_id;
         $book->genre_id = $request->genre_id;
         $book->date_released = $request->date_released;
         $book->nums = "0";
+        $book->imgpath = "default";
         $book->save();
 
-        return redirect()->route('books.table');
+        // return redirect()->route('books.table');
+        return response()->json($book);
     }
 
     /**
@@ -105,16 +109,18 @@ class BookController extends Controller
      */
     public function edit($id)
     {
-        $book = DB::table('authors as a')
-            ->join('books as b', 'a.id', '=', 'b.author_id')
-            ->join('genres as g', 'b.genre_id', '=', 'g.id')
-            ->where('b.id', $id)
-            ->first();
+        $books = Book::with(['author','genre'])->where('id', $id)->first();
+        // $book = DB::table('authors as a')
+        //     ->join('books as b', 'a.id', '=', 'b.author_id')
+        //     ->join('genres as g', 'b.genre_id', '=', 'g.id')
+        //     ->where('b.id', $id)
+        //     ->first();
 
-        $authors = Author::where('id', '<>', $book->author_id)->get(['name', 'id']);
-        $genres = Genre::where('id', '<>', $book->genre_id)->get(['genre_name', 'id']);
+        $authors = Author::where('id', '<>', $books->author->id)->get();
+        $genres = Genre::where('id', '<>', $books->genre->id)->get();
 
-        return View::make('book.edit', compact('book', 'authors', 'genres'));
+        // return View::make('book.edit', compact('book', 'authors', 'genres'));
+        return response()->json(["books"=> $books, "authors"=> $authors, "genres"=> $genres]);
     }
 
     /**
@@ -126,38 +132,40 @@ class BookController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|min:5|max:20',
-            'author_id' => 'required',
-            'genre_id' => 'required',
-            'date_released' => 'required',
-            'imgpath' => 'image|mimes:jpeg,jpg,png,gif',
-        ]);
+        // $validator = Validator::make($request->all(), [
+        //     'title' => 'required|min:5|max:20',
+        //     'author_id' => 'required',
+        //     'genre_id' => 'required',
+        //     'date_released' => 'required',
+        //     'imgpath' => 'image|mimes:jpeg,jpg,png,gif',
+        // ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
+        // if ($validator->fails()) {
+        //     return redirect()->back()->withErrors($validator)->withInput();
+        // }
 
         $book = Book::find($id);
 
-        if ($request->file()) {
-            $fileName = time() . '_' . $request->file('imgpath')->getClientOriginalName();
+        // if ($request->file()) {
+        //     $fileName = time() . '_' . $request->file('imgpath')->getClientOriginalName();
 
-            $path = Storage::putFileAs(
-                'public/images',
-                $request->file('imgpath'),
-                $fileName
-            );
-            $book->imgpath = '/storage/images/' . $fileName;
-        }
+        //     $path = Storage::putFileAs(
+        //         'public/images',
+        //         $request->file('imgpath'),
+        //         $fileName
+        //     );
+        //     $book->imgpath = '/storage/images/' . $fileName;
+        // }
 
         $book->title = $request->title;
         $book->author_id = $request->author_id;
         $book->genre_id = $request->genre_id;
         $book->date_released = $request->date_released;
+        $book->imgpath = "pogi si dave";
         $book->save();
 
-        return redirect()->route('book.index');
+        // return redirect()->route('book.index');
+        return response()->json($book);
     }
 
     /**
@@ -169,7 +177,8 @@ class BookController extends Controller
     public function destroy($id)
     {
         Book::destroy($id);
-        return back();
+        // return back();
+        return response()->json([]);
     }
 
     public function search(Request $request)

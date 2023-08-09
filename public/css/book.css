@@ -1,0 +1,22 @@
+.justify-content-center {
+    margin-top: 50px;
+    margin-right: 0px !important;
+}
+
+#create {
+    margin: 10px;
+}
+
+#bookTable_filter {
+    margin: 10px;
+}
+
+.action-buttons{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+#bookTable th,
+#bookTable td{
+    text-align: center;
+}
