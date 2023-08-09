@@ -7,7 +7,8 @@ use App\Models\Borrow;
 use App\Models\book;
 use App\Models\user;
 use Carbon\Carbon;
-use View;
+use Illuminate\Support\Facades\View;
+use App\Events\UserEmailEvent;
 
 class OrderConfirmationController extends Controller
 {
@@ -20,7 +21,10 @@ class OrderConfirmationController extends Controller
         $borrow = Borrow::find($id);
         $borrow->status = 'on borrow';
         $borrow->save();
+        UserEmailEvent::dispatch($borrow);
         return redirect()->back();
+        
+
 }
 
 public function cancel($id){

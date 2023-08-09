@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Checkout Email</title>
     <style>
@@ -21,7 +22,8 @@
             margin-bottom: 20px;
         }
 
-        th, td {
+        th,
+        td {
             padding: 10px;
             text-align: left;
             border-bottom: 1px solid #ddd;
@@ -37,27 +39,32 @@
         }
     </style>
 </head>
+
 <body>
-    <h2>Checkout Items</h2>
+    <h2>Reserved Items</h2>
+    <p>Borrow Date: <span>{{ $checkoutItems->created_at }} - Due Date:
+        </span>{{ $checkoutItems->due_date }}<span></span></p>
+    <p>Reserved by: {{ $checkoutItems->user->name }}</p>
     <table>
         <thead>
             <tr>
                 <th>Title</th>
-                <th>Image</th>
-                <th>Due Date</th>
+                {{-- <th>Image</th> --}}
+                {{-- <th>Due Date</th> --}}
                 <th>Quantity</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($checkoutItems as $item)
-            <tr>
-                <td>{{ $item['title'] }}</td>
-                <td><img src="{{ $item['img_path'] }}" alt="{{ $item['title'] }}" width="100"></td>
-                <td>{{ $item['due_date'] }}</td>
-                <td>{{ $item['quantity'] }}</td>
-            </tr>
-        @endforeach
+            @foreach ($checkoutItems->books as $item)
+                <tr>
+                    <td>{{ $item->title }}</td>
+                    {{-- <td><img src="" alt="{{ $item['title'] }}" width="100"></td> --}}
+                    {{-- <td>{{ $item['due_date'] }}</td> --}}
+                    <td>{{ $item->pivot->quantity }}</td>
+                </tr>
+            @endforeach
         </tbody>
     </table>
 </body>
+
 </html>

@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\DB;
+use App\Events\ReciveEmailEvent;
 
 class ItemController extends Controller
 {
@@ -164,12 +165,14 @@ class ItemController extends Controller
                     $bookToStock->save();
                 }
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
             Debugbar::info($e);
         }
         DB::commit();
         session()->forget('checkout');
+        // Debugbar::info($borrow);
+        ReciveEmailEvent::dispatch($borrow);
         // }
         // else{
         //     return redirect()->route('login');

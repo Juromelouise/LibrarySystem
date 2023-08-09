@@ -18,7 +18,7 @@ class Checkout extends Mailable
      *
      * @param array $checkoutItems The array containing checkout items
      */
-    public function __construct(array $checkoutItems)
+    public function __construct($checkoutItems)
     {
         $this->checkoutItems = $checkoutItems;
     }
@@ -31,7 +31,7 @@ class Checkout extends Mailable
     public function build()
     {
         return $this->subject('Checkout')
-                    ->view('admin.checkout_email')
-                    ->with('checkoutItems', $this->checkoutItems);
+            ->view('admin.checkout_email')
+            ->with('checkoutItems', $this->checkoutItems);
     }
 }
