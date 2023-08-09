@@ -24,6 +24,7 @@
                             <thead>
                                 <tr>
                                     <th scope="col">ID</th>
+                                    <th scope="col">Image</th>
                                     <th scope="col">Genre</th>
                                     <th scope="col">Action</th>
                                 </tr>
@@ -51,6 +52,10 @@
                                 <input type="text" class="form-control" id="genre_name" placeholder="Enter Genre Name"
                                     name="genre_name">
                             </div>
+                            <div class="form-group">
+                                <label for="document">Attachments</label>
+                                <div class="needsclick dropzone" id="document-dropzone"></div>
+                            </div>
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -66,4 +71,42 @@
     @else
         <p>Access denied. You must be an admin to view this page.</p>
     @endif
+    <script>
+        var uploadedDocumentMap = {}
+        Dropzone.options.documentDropzone = {
+            url: '{{ route('genre.storeMedia') }}',
+            // maxFilesize: 2, // MB
+            addRemoveLinks: true,
+            // acceptedFiles: "image/jpeg,image/png,image/gif",
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            },
+            success: function(file, response) {
+                $('form').append('<input type="hidden" name="document[]" value="' + response.name + '">')
+                uploadedDocumentMap[file.name] = response.name
+            },
+            removedfile: function(file) {
+                file.previewElement.remove()
+                var name = ''
+                if (typeof file.file_name !== 'undefined') {
+                    name = file.file_name
+                } else {
+                    name = uploadedDocumentMap[file.name]
+                }
+                $('form').find('input[name="document[]"][value="' + name + '"]').remove()
+            },
+            init: function() {
+                @if (isset($project) && $project->document)
+                    var files =
+                        {!! json_encode($project->document) !!}
+                    for (var i in files) {
+                        var file = files[i]
+                        this.options.addedfile.call(this, file)
+                        file.previewElement.classList.add('dz-complete')
+                        $('form').append('<input type="hidden" name="document[]" value="' + file.file_name + '">')
+                    }
+                @endif
+            }
+        }
+    </script>
 @endsection

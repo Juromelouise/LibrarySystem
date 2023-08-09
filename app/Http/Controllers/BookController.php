@@ -7,6 +7,7 @@ use App\DataTables\StockDataTable;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Genre;
+use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -22,7 +23,8 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = Book::with(['author','genre'])->get();
+        $books = Book::with(['author', 'genre', 'media'])->get();
+        Debugbar::info($books);
         // $books = DB::table('authors')
         //     ->join('books', 'authors.id', '=', 'books.author_id')
         //     ->join('genres', 'books.genre_id', '=', 'genres.id')
@@ -42,7 +44,7 @@ class BookController extends Controller
         $authors = Author::all();
         $genres = Genre::all();
         // return View::make('book.create', compact('authors', 'genres'));
-        return response()->json(["authors"=> $authors, "genres" => $genres]);
+        return response()->json(["authors" => $authors, "genres" => $genres]);
     }
 
     /**
@@ -84,6 +86,12 @@ class BookController extends Controller
         $book->date_released = $request->date_released;
         $book->nums = "0";
         $book->imgpath = "default";
+        if ($request->document !== null) {
+            foreach ($request->input("document", []) as $file) {
+                $book->addMedia(storage_path("books/images/" . $file))->toMediaCollection("images");
+                // unlink(storage_path("drivers/images/" . $file));
+            }
+        }
         $book->save();
 
         // return redirect()->route('books.table');
@@ -109,7 +117,7 @@ class BookController extends Controller
      */
     public function edit($id)
     {
-        $books = Book::with(['author','genre'])->where('id', $id)->first();
+        $books = Book::with(['author', 'genre'])->where('id', $id)->first();
         // $book = DB::table('authors as a')
         //     ->join('books as b', 'a.id', '=', 'b.author_id')
         //     ->join('genres as g', 'b.genre_id', '=', 'g.id')
@@ -120,7 +128,7 @@ class BookController extends Controller
         $genres = Genre::where('id', '<>', $books->genre->id)->get();
 
         // return View::make('book.edit', compact('book', 'authors', 'genres'));
-        return response()->json(["books"=> $books, "authors"=> $authors, "genres"=> $genres]);
+        return response()->json(["books" => $books, "authors" => $authors, "genres" => $genres]);
     }
 
     /**
@@ -205,5 +213,20 @@ class BookController extends Controller
     public function stocktable(StockDataTable $dataTable)
     {
         return $dataTable->render("admin.stock");
+    }
+    public function storeMedia(Request $request)
+    {
+        $path = storage_path("books/images");
+        if (!file_exists($path)) {
+            mkdir($path, 0777, true);
+        }
+        $file = $request->file("file");
+        $name = uniqid() . "_" . trim($file->getClientOriginalName());
+        $file->move($path, $name);
+
+        return response()->json([
+            "name" => $name,
+            "original_name" => $file->getClientOriginalName(),
+        ]);
     }
 }

@@ -18,6 +18,13 @@ $(function () {
                 data: "book.title",
             },
             {
+                data: null,
+                render: function (data) {
+                    return `<img class="model-image" src="${data.media[0]?.original_url}" alt="NONE">`;
+                },
+                class: "data-image",
+            },
+            {
                 data: "stock",
             },
             {

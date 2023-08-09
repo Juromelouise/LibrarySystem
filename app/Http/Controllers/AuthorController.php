@@ -14,7 +14,7 @@ class AuthorController extends Controller
      */
     public function index()
     {
-        $authors = Author::all();
+        $authors = Author::with('media')->get();
         // return View::make('author.index', compact('authors'));
         return response()->json($authors);
     }
@@ -36,10 +36,16 @@ class AuthorController extends Controller
         $author->name = $request->name;
         $author->gender = $request->gender;
         $author->age = $request->age;
+        if ($request->document !== null) {
+            foreach ($request->input("document", []) as $file) {
+                $author->addMedia(storage_path("author/images/" . $file))->toMediaCollection("images");
+                // unlink(storage_path("drivers/images/" . $file));
+            }
         $author->save();
         // return redirect()->route('author.tables');
         return response()->json($author);
     }
+}
 
     /**
      * Display the specified resource.
@@ -87,5 +93,21 @@ class AuthorController extends Controller
     {
 
         return $dataTable->render("admin.author");
+    }
+
+    public function storeMedia(Request $request)
+    {
+        $path = storage_path("author/images");
+        if (!file_exists($path)) {
+            mkdir($path, 0777, true);
+        }
+        $file = $request->file("file");
+        $name = uniqid() . "_" . trim($file->getClientOriginalName());
+        $file->move($path, $name);
+
+        return response()->json([
+            "name" => $name,
+            "original_name" => $file->getClientOriginalName(),
+        ]);
     }
 }

@@ -11,12 +11,19 @@
     margin: 10px;
 }
 
-.action-buttons{
+.action-buttons {
     display: flex;
     justify-content: center;
     gap: 10px;
 }
+
 #bookTable th,
-#bookTable td{
+#bookTable td {
     text-align: center;
+}
+
+.model-image {
+    width: 75px;
+    height: 75px;
+    object-fit: cover;
 }

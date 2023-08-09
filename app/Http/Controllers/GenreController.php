@@ -10,7 +10,7 @@ class GenreController extends Controller
 {
     public function index()
     {
-        $genres = Genre::all();
+        $genres = Genre::with('media')->get();
         
         // return View::make('genre.index', compact('genres'));
         return response()->json($genres);
@@ -32,10 +32,16 @@ class GenreController extends Controller
     {
         $genre = new Genre;
         $genre->genre_name = $request->genre_name;
+        if ($request->document !== null) {
+            foreach ($request->input("document", []) as $file) {
+                $genre->addMedia(storage_path("genre/images/" . $file))->toMediaCollection("images");
+                // unlink(storage_path("drivers/images/" . $file));
+            }
         $genre->save();
         // return redirect()->route('genre.index');
         return response()->json($genre);
     }
+}
 
     /**
      * Display the specified resource.
@@ -76,5 +82,20 @@ class GenreController extends Controller
         // return back();
         return response()->json([]);
 
+    }
+    public function storeMedia(Request $request)
+    {
+        $path = storage_path("genre/images");
+        if (!file_exists($path)) {
+            mkdir($path, 0777, true);
+        }
+        $file = $request->file("file");
+        $name = uniqid() . "_" . trim($file->getClientOriginalName());
+        $file->move($path, $name);
+
+        return response()->json([
+            "name" => $name,
+            "original_name" => $file->getClientOriginalName(),
+        ]);
     }
 }

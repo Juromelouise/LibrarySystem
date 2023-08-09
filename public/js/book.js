@@ -17,6 +17,13 @@ $(function () {
                 data: "title",
             },
             {
+                data: null,
+                render: function (data) {
+                    return `<img class="model-image" src="${data.media[0]?.original_url}" alt="NONE">`;
+                },
+                class: "data-image",
+            },
+            {
                 data: "genre.genre_name",
             },
             {
@@ -47,33 +54,33 @@ $(function () {
 });
 
 $(document).on("click", "#create", function (e) {
-    $('#bookForm').trigger("reset");
+    $("#bookForm").trigger("reset");
     $("#update").hide();
     $("#save").show();
 
     $.ajax({
         url: `/api/books/create`,
-        type: 'GET',
+        type: "GET",
         headers: {
-            "X-CSRF-TOKEN": $('meta[name="csrf-tokens"]').attr('content'),
+            "X-CSRF-TOKEN": $('meta[name="csrf-tokens"]').attr("content"),
         },
         dataType: "json",
         success: function (data) {
-            $('select').empty();
+            $("select").empty();
 
+            $("#genre-select").append(
+                $("<option>").attr({ value: "" }).html("Select Genre Name")
+            );
+            $("#author-select").append(
+                $("<option>").attr({ value: "" }).html("Select Author Name")
+            );
 
-
-            $('#genre-select').append($('<option>').attr({ "value": "" }).html('Select Genre Name'))
-            $('#author-select').append($('<option>').attr({ "value": "" }).html('Select Author Name'))
-            
-
-            selectInputs(data.authors, data.genres)
+            selectInputs(data.authors, data.genres);
         },
         error: function (error) {
             alert("error");
-        }
-
-    })
+        },
+    });
 });
 
 $("#save").on("click", function (e) {
@@ -111,81 +118,93 @@ $("#save").on("click", function (e) {
 
 function selectInputs(authors, genres) {
     $.each(authors, function (i, value) {
-        $('#author-select').append(
-            $('<option>').attr({
-                "value": value.id
-            }).css({
-                "text-transform": "capitalize"
-            }).html(`${value.name}`)
-        )
-    })
+        $("#author-select").append(
+            $("<option>")
+                .attr({
+                    value: value.id,
+                })
+                .css({
+                    "text-transform": "capitalize",
+                })
+                .html(`${value.name}`)
+        );
+    });
     $.each(genres, function (i, value) {
-        $('#genre-select').append(
-            $('<option>').attr({
-                "value": value.id
-            }).css({
-                "text-transform": "capitalize"
-            }).html(value.genre_name)
-        )
-    })
+        $("#genre-select").append(
+            $("<option>")
+                .attr({
+                    value: value.id,
+                })
+                .css({
+                    "text-transform": "capitalize",
+                })
+                .html(value.genre_name)
+        );
+    });
 }
 
-$(document).on('click', '.edit', function () {
-    $('#bookForm').trigger("reset");
-    let id = $(this).attr('data-id');
-    $('#save').hide()
-    $('#update').show()
-    $('#update').attr({
-        "data-id": id
-    })
+$(document).on("click", ".edit", function () {
+    $("#bookForm").trigger("reset");
+    let id = $(this).attr("data-id");
+    $("#save").hide();
+    $("#update").show();
+    $("#update").attr({
+        "data-id": id,
+    });
     $.ajax({
         url: `/api/books/${id}/edit`,
-        type: 'GET',
+        type: "GET",
         headers: {
-            "X-CSRF-TOKEN": $('meta[name="csrf-tokens"]').attr('content'),
+            "X-CSRF-TOKEN": $('meta[name="csrf-tokens"]').attr("content"),
         },
         dataType: "json",
         success: function (data) {
             console.log(data);
-            $('select').empty();
+            $("select").empty();
 
-            $('#title').val(data.books.title);
+            $("#title").val(data.books.title);
 
-            $('#author-select').append($('<option>').attr({
-                "value": data.authors.id
-            }).html(data.books.author.name))
+            $("#author-select").append(
+                $("<option>")
+                    .attr({
+                        value: data.authors.id,
+                    })
+                    .html(data.books.author.name)
+            );
 
-            $('#genre-select').append($('<option>').attr({
-                "value": data.genres.id
-            }).html(data.books.genre.genre_name))
+            $("#genre-select").append(
+                $("<option>")
+                    .attr({
+                        value: data.genres.id,
+                    })
+                    .html(data.books.genre.genre_name)
+            );
 
-            $('#date_released').val(data.books.date_released);
+            $("#date_released").val(data.books.date_released);
 
-            selectInputs(data.authors, data.genres)
-
+            selectInputs(data.authors, data.genres);
         },
         error: function (error) {
             alert("error");
-        }
-
-    })
+        },
+    });
 });
 
-$("#update").on('click', function () {
+$("#update").on("click", function () {
     let id = $(this).attr("data-id");
-    let formData = new FormData($('#bookForm')[0]);
+    let formData = new FormData($("#bookForm")[0]);
     for (var pair of formData.entries()) {
-        console.log(pair[0] + ', ' + pair[1]);
+        console.log(pair[0] + ", " + pair[1]);
     }
-    formData.append('_method', 'PUT');
+    formData.append("_method", "PUT");
     $.ajax({
         url: `/api/books/${id}`,
-        type: 'POST',
+        type: "POST",
         data: formData,
         contentType: false,
         processData: false,
         headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
         },
         dataType: "json",
         success: function (data) {
@@ -205,10 +224,10 @@ $("#update").on('click', function () {
             }, 2000);
         },
         error: function (error) {
-            alert(error)
+            alert(error);
         },
-    })
-}); 
+    });
+});
 
 $(document).on("click", ".delete", function (e) {
     let id = $(this).attr("data-id");
@@ -232,7 +251,6 @@ $(document).on("click", ".delete", function (e) {
                 $(".alert").fadeOut(3000, function () {
                     $(this).css({
                         display: "none",
-                        
                     });
                 });
             }, 2000);

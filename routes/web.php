@@ -48,6 +48,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/stocktable', 'App\Http\Controllers\BookController@stocktable')->name('stock.table');
     Route::get('/authortable', 'App\Http\Controllers\AuthorController@authortable')->name('author.table');
     
+    Route::post('/media/book', 'BookController@storeMedia')->name('book.storeMedia');
+    Route::post('/media/author', 'AuthorController@storeMedia')->name('author.storeMedia');
+    Route::post('/media/stock', 'StockController@storeMedia')->name('stock.storeMedia');
+    Route::post('/media/genre', 'GenreController@storeMedia')->name('genre.storeMedia');
     Route::view('/authors', 'author.index')->name('author.index');
     Route::view('/genres', 'genre.index')->name('genre.index');
     Route::view('/books', 'book.index')->name('book.index');

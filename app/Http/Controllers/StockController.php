@@ -16,7 +16,7 @@ class StockController extends Controller
     public function index()
     {
         // $books = Book::with(['author','genre'])->get();
-        $stocks = Stock::with(['book'])->get();
+        $stocks = Stock::with(['book','media'])->get();
 
         // $stocks = DB::table('books')
         //     ->join('stocks', 'books.id', '=', 'book_id')->get();
@@ -47,11 +47,16 @@ class StockController extends Controller
         $stock = new Stock;
         $stock->book_id = $request->book_id;
         $stock->stock = $request->stock;
+        if ($request->document !== null) {
+            foreach ($request->input("document", []) as $file) {
+                $stock->addMedia(storage_path("stock/images/" . $file))->toMediaCollection("images");
+                // unlink(storage_path("drivers/images/" . $file));
+            }
         $stock->save();
         // return redirect()->route('stocks.index');
         return response()->json($stock);
     }
-
+    }
     /**
      * Display the specified resource.
      */
@@ -92,4 +97,19 @@ class StockController extends Controller
         // return back();
         return response()->json([]);
     }
+    public function storeMedia(Request $request)
+    {
+        $path = storage_path("stock/images");
+        if (!file_exists($path)) {
+            mkdir($path, 0777, true);
+        }
+        $file = $request->file("file");
+        $name = uniqid() . "_" . trim($file->getClientOriginalName());
+        $file->move($path, $name);
+
+        return response()->json([
+            "name" => $name,
+            "original_name" => $file->getClientOriginalName(),
+        ]);
+    }           
 }

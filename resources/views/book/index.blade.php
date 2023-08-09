@@ -3,7 +3,7 @@
     New York Sanctuary
 @endsection
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('/css/author.css') }}">
+    <link rel="stylesheet" href="{{ asset('/css/book.css') }}">
 @endsection
 @section('content')
     @if (Auth::user() && Auth::user()->role === '1')
@@ -24,7 +24,7 @@
                             <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">Book Name</th>
-                                {{-- <th scope="col">Image</th> --}}
+                                <th scope="col">Image</th>
                                 <th scope="col">Genre</th>
                                 <th scope="col">Author Name</th>
                                 <th scope="col">Date Released</th>
@@ -76,6 +76,10 @@
                             <label for="date_released">Date Released:</label>
                             <input type="date" class="form-control" id="date_released" name="date_released">
                         </div>
+                        <div class="form-group">
+                            <label for="document">Attachments</label>
+                            <div class="needsclick dropzone" id="document-dropzone"></div>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -90,4 +94,42 @@
     @else
 <p>Access denied. You must be an admin to view this page.</p>
 @endif
+<script>
+    var uploadedDocumentMap = {}
+    Dropzone.options.documentDropzone = {
+        url: '{{ route('book.storeMedia') }}',
+        // maxFilesize: 2, // MB
+        addRemoveLinks: true,
+        // acceptedFiles: "image/jpeg,image/png,image/gif",
+        headers: {
+            'X-CSRF-TOKEN': "{{ csrf_token() }}"
+        },
+        success: function(file, response) {
+            $('form').append('<input type="hidden" name="document[]" value="' + response.name + '">')
+            uploadedDocumentMap[file.name] = response.name
+        },
+        removedfile: function(file) {
+            file.previewElement.remove()
+            var name = ''
+            if (typeof file.file_name !== 'undefined') {
+                name = file.file_name
+            } else {
+                name = uploadedDocumentMap[file.name]
+            }
+            $('form').find('input[name="document[]"][value="' + name + '"]').remove()
+        },
+        init: function() {
+            @if (isset($project) && $project->document)
+                var files =
+                    {!! json_encode($project->document) !!}
+                for (var i in files) {
+                    var file = files[i]
+                    this.options.addedfile.call(this, file)
+                    file.previewElement.classList.add('dz-complete')
+                    $('form').append('<input type="hidden" name="document[]" value="' + file.file_name + '">')
+                }
+            @endif
+        }
+    }
+</script>
 @endsection

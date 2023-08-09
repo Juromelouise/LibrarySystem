@@ -20,3 +20,8 @@
 #genreTable td{
     text-align: center;
 }
+.model-image {
+    width: 75px;
+    height: 75px;
+    object-fit: cover;
+}
