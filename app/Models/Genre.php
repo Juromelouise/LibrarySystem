@@ -12,6 +12,8 @@ class Genre extends Model implements HasMedia
 {
     use HasFactory;
     use InteractsWithMedia;
+
+    protected $fillable =['genre_name'];
     public function books()
     {
         return $this->hasMany(Book::class);

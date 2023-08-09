@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Genre;
 use Barryvdh\Debugbar\Facades\Debugbar;
-use View;
+use Illuminate\Support\Facades\View;
+use App\Imports\GenreImport;
+use Maatwebsite\Excel\Facades\Excel;
+
 class GenreController extends Controller
 {
     public function index()
@@ -97,5 +100,10 @@ class GenreController extends Controller
             "name" => $name,
             "original_name" => $file->getClientOriginalName(),
         ]);
+    }
+
+    public function import(Request $request){
+        Excel::import(new GenreImport, $request->excel);
+        return redirect()->route('genre.index');
     }
 }

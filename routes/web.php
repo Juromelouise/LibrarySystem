@@ -48,6 +48,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/stocktable', 'App\Http\Controllers\BookController@stocktable')->name('stock.table');
     Route::get('/authortable', 'App\Http\Controllers\AuthorController@authortable')->name('author.table');
     
+    Route::post('genre/import', 'GenreController@import')->name('genre.import');
     Route::post('/media/book', 'BookController@storeMedia')->name('book.storeMedia');
     Route::post('/media/author', 'AuthorController@storeMedia')->name('author.storeMedia');
     Route::post('/media/stock', 'StockController@storeMedia')->name('stock.storeMedia');

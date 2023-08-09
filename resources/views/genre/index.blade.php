@@ -8,6 +8,7 @@
 @endsection
 @section('content')
     @if (Auth::user() && Auth::user()->role === '1')
+          {{-- {{ link_to_route('item.export', 'Export to Excel')}} --}}
         <div class="container-fluid">
             <div class="alert alert-success alert-dismissible fade show" role="alert"
                 style="position:absolute; top:9.5%; width: 95%;">
@@ -20,6 +21,12 @@
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     <div class="card">
+                        <form action="{{route('genre.import')}}" method="post" enctype="multipart/form-data" >
+                            {{ csrf_field() }}
+                          <input type="file" id="uploadName" class="form-control" name="excel" required>
+                          <button type="submit" class="btn btn-info btn-primary " >Import Excel File</button>
+            
+                        </div>
                         <table id="genreTable" class="table">
                             <thead>
                                 <tr>
@@ -56,6 +63,7 @@
                                 <label for="document" id="document1">Attachments</label>
                                 <div class="needsclick dropzone" id="document-dropzone"></div>
                             </div>
+
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -63,7 +71,9 @@
                         <button id="save" type="button" class="btn btn-primary">Save</button>
                         <button id="update" type="button" class="btn btn-primary">Update</button>
                     </div>
+                    
                 </div>
+                
             </div>
         </div>
         </div>

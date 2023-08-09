@@ -26,7 +26,7 @@ $(function () {
             {
                 data: null,
                 render: function (data) {
-                    // console.log(data);
+                    console.log(data);
                     return `<div class="action-buttons"><button type="button" data-toggle="modal" data-target="#modalCUgenre" data-id="${data.id}" class="btn btn-primary edit">
                 <i class="bi bi-pencil-square"></i>
                     </button>
@@ -55,10 +55,6 @@ $(document).on("click", "#create", function (e)
 
 $("#save").on("click", function (e) {
     let formData = new FormData($("#genreForm")[0]);
-    // for (var pair of formData.entries()) {
-    //     console.log(pair[0] + ", " + pair[1]);
-    // }
-
     $.ajax({
         url: "/api/genres",
         type: "POST",
