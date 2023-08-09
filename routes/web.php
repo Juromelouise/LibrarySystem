@@ -51,8 +51,8 @@ Route::middleware(['auth'])->group(function () {
     Route::view('/authors', 'author.index')->name('author.index');
     Route::view('/genres', 'genre.index')->name('genre.index');
     Route::view('/books', 'book.index')->name('book.index');
+    Route::view('/stocks', 'stock.index')->name('stock.index');
     Route::resource('user', 'UserController');
-    Route::resource('stocks', 'StockController');
     Route::get('/confirm/{id}', 'App\Http\Controllers\OrderConfirmationController@confirm')->name('order.confirm');
     Route::get('/cancel/{id}', 'App\Http\Controllers\OrderConfirmationController@cancel')->name('order.cancel');
     Route::get('/confirmation', 'App\Http\Controllers\OrderConfirmationController@orderconfirmation')->name('order.confirmation');

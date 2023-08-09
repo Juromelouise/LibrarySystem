@@ -20,7 +20,8 @@ class StockController extends Controller
 
         // $stocks = DB::table('books')
         //     ->join('stocks', 'books.id', '=', 'book_id')->get();
-        return View::make('stock.index', compact('stocks'));
+        // return View::make('stock.index', compact('stocks'));
+        return response()->json($stocks);
     }
 
     /**
@@ -28,11 +29,13 @@ class StockController extends Controller
      */
     public function create()
     {
-        $books = Book::with('stock')
-            ->whereDoesntHave('stock')
-            ->get();
+        // $books = Book::with('stock')
+        //     ->whereDoesntHave('stock')
+        //     ->get();
+        $books = Book::with('stock')->whereDoesntHave('stock')->get();
 // dd($books);
-        return view('stock.create', compact('books'));
+        // return view('stock.create', compact('books'));
+        return response()->json($books);
 
     }
 
@@ -45,7 +48,8 @@ class StockController extends Controller
         $stock->book_id = $request->book_id;
         $stock->stock = $request->stock;
         $stock->save();
-        return redirect()->route('stocks.index');
+        // return redirect()->route('stocks.index');
+        return response()->json($stock);
     }
 
     /**
@@ -62,7 +66,8 @@ class StockController extends Controller
     public function edit(string $id)
     {
         $stock = Stock::find($id);
-        return view('stock.edit', compact('stock'));
+        // return view('stock.edit', compact('stock'));
+        return response()->json($stock);
     }
 
     /**
@@ -71,10 +76,11 @@ class StockController extends Controller
     public function update(Request $request, string $id)
     {
         $stock = Stock::find($id);
-        $stock->book_id = $request->input('book_id');
+        // $stock->book_id = $request->book_id;
         $stock->stock = $request->stock;
         $stock->save();
-        return redirect()->route('stock.table');
+        // return redirect()->route('stock.table');
+        return response()->json($stock);
     }
 
     /**
@@ -83,6 +89,7 @@ class StockController extends Controller
     public function destroy(string $id)
     {
         Stock::destroy($id);
-        return back();
+        // return back();
+        return response()->json([]);
     }
 }

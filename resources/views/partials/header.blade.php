@@ -48,7 +48,7 @@
                         <a class="dropdown-item" href="{{ route('genre.index') }}">Genre</a>
                         <a class="dropdown-item" href="{{ route('author.index') }}">Author</a>
                         <a class="dropdown-item" href="{{ route('book.index') }}">Book</a>
-                        <a class="dropdown-item" href="{{ route('stocks.index') }}">Stock</a>
+                        <a class="dropdown-item" href="{{ route('stock.index') }}">Stock</a>
                         <a class="dropdown-item" href="{{ route('order.confirmation') }}">Confrim orders</a>
                         <div class="dropdown-divider"></div>
                         <a class="nav-link dropdown-toggle" href="#" id="nestedDropdown" role="button"

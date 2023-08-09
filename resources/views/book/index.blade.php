@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{{ asset('/css/author.css') }}">
 @endsection
 @section('content')
-    {{-- @if (Auth::user() && Auth::user()->role === '1') --}}
+    @if (Auth::user() && Auth::user()->role === '1')
     <div class="container-fluid">
       <div class="alert alert-success alert-dismissible fade show" role="alert"
           style="position:absolute; top:9.5%; width: 95%;">
@@ -16,7 +16,6 @@
           </button>
       </div>
     <div class="container">
-        {{-- <a href="{{route('book.create')}}" class="btn btn-primary btn-lg " role="button" aria-disabled="true" style="float: right;">Add Book</a> --}}
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
@@ -88,7 +87,7 @@
         </div>
     </div>
     <script src="{{ asset('/js/book.js') }}"></script>
-    {{-- @else
+    @else
 <p>Access denied. You must be an admin to view this page.</p>
-@endif --}}
+@endif
 @endsection
