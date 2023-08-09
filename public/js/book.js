@@ -55,6 +55,8 @@ $(function () {
 
 $(document).on("click", "#create", function (e) {
     $("#bookForm").trigger("reset");
+    $("#document1").show();
+    $("#document-dropzone").show();
     $("#update").hide();
     $("#save").show();
 
@@ -146,6 +148,8 @@ function selectInputs(authors, genres) {
 $(document).on("click", ".edit", function () {
     $("#bookForm").trigger("reset");
     let id = $(this).attr("data-id");
+    $("#document1").hide();
+    $("#document-dropzone").hide();
     $("#save").hide();
     $("#update").show();
     $("#update").attr({

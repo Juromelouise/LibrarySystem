@@ -44,7 +44,10 @@ $(function () {
     ).insertBefore("#genreTable_filter");
 });
 
-$(document).on("click", "#create", function (e) {
+$(document).on("click", "#create", function (e) 
+{
+    $("#document1").show();
+    $("#document-dropzone").show();
     $("#genreForm").trigger("reset");
     $("#update").hide();
     $("#save").show();
@@ -89,6 +92,8 @@ $("#save").on("click", function (e) {
 $(document).on("click", ".edit", function (e) {
     let id = $(this).attr("data-id");
     $("#genreForm").trigger("reset");
+    $("#document1").hide();
+    $("#document-dropzone").hide();
     $("#update").show();
     $("#update").attr({
         "data-id": id

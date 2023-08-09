@@ -65,6 +65,8 @@ $(document).on("click", "#create", function (e) {
     $("#female").attr({
         checked: false,
     });
+    $("#document1").show();
+    $("#document-dropzone").show();
     $("#authorForm").trigger("reset");
     $("#update").hide();
     $("#save").show();
@@ -113,6 +115,8 @@ $(document).on("click", ".edit", function (e) {
     $("#female").attr({
         checked: false,
     });
+    $("#document1").hide();
+    $("#document-dropzone").hide();
     let id = $(this).attr("data-id");
     $("#authorForm").trigger("reset");
     $("#update").show();

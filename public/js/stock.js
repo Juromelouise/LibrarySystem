@@ -50,6 +50,8 @@ $(function () {
 
 $(document).on("click", "#create", function (e) {
     $('#stockForm').trigger("reset");
+    $("#document1").show();
+    $("#document-dropzone").show();
     $("#update").hide();
     $("#save").show();
 
@@ -127,6 +129,8 @@ $("#save").on("click", function (e) {
 $(document).on('click', '.edit', function () {
     $('#stockForm').trigger("reset");
     let id = $(this).attr('data-id');
+    $("#document1").hide();
+    $("#document-dropzone").hide();
     $('#save').hide()
     $('#update').show()
     $('#update').attr({

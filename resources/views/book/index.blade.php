@@ -77,7 +77,7 @@
                             <input type="date" class="form-control" id="date_released" name="date_released">
                         </div>
                         <div class="form-group">
-                            <label for="document">Attachments</label>
+                            <label for="document" id="document1">Attachments</label>
                             <div class="needsclick dropzone" id="document-dropzone"></div>
                         </div>
                     </form>

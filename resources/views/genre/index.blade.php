@@ -53,7 +53,7 @@
                                     name="genre_name">
                             </div>
                             <div class="form-group">
-                                <label for="document">Attachments</label>
+                                <label for="document" id="document1">Attachments</label>
                                 <div class="needsclick dropzone" id="document-dropzone"></div>
                             </div>
                         </form>
