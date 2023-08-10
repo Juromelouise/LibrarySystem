@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Author;
 use App\DataTables\AuthorDataTable;
-use View;
+use Illuminate\Support\Facades\View;
+use App\Imports\AuthorImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AuthorController extends Controller
 {
@@ -109,5 +111,12 @@ class AuthorController extends Controller
             "name" => $name,
             "original_name" => $file->getClientOriginalName(),
         ]);
+    }
+
+    public function import(Request $request)
+    {
+        Excel::import(new AuthorImport, $request->excel);
+    
+        return redirect()->route('author.index');
     }
 }

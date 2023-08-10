@@ -80,7 +80,7 @@ class ItemController extends Controller
     public function getItems()
     {
 
-        $books = Book::with(['author', 'genre', 'stock'])
+        $books = Book::with(['author', 'genre', 'stock','media'])
             ->whereHas('stock', function ($query) {
                 $query->where('stock', '>', 0);
             })
@@ -244,8 +244,6 @@ class ItemController extends Controller
                 ->where('user_id', $user)
                 ->where('status', "on borrow")
                 ->get();
-
-            // dd($borrowbooks);
             return view('return.index', compact('borrowbooks'));
         } else {
             return redirect()->route('login');
