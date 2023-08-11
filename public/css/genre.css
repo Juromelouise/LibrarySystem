@@ -25,3 +25,8 @@
     height: 75px;
     object-fit: cover;
 }
+
+label.error{
+    color: red !important;
+    font-size: small !important;
+}

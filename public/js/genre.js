@@ -1,5 +1,11 @@
 let table;
 $(function () {
+    $("#genreForm").validate({
+        rules: {
+            genre_name: "required",
+            age: "required",
+        },
+    });
     table = $("#genreTable").DataTable({
         ajax: {
             url: "/api/genres",
@@ -44,7 +50,7 @@ $(function () {
     ).insertBefore("#genreTable_filter");
 });
 
-$(document).on("click", "#create", function (e) 
+$(document).on("click", "#create", function (e)
 {
     $("#document1").show();
     $("#document-dropzone").show();
@@ -54,6 +60,7 @@ $(document).on("click", "#create", function (e)
 });
 
 $("#save").on("click", function (e) {
+    if ($("#genreForm").valid()) {
     let formData = new FormData($("#genreForm")[0]);
     $.ajax({
         url: "/api/genres",
@@ -82,7 +89,7 @@ $("#save").on("click", function (e) {
             }, 2000);
         },
         error: function (error) {},
-    });
+    });}
 });
 
 $(document).on("click", ".edit", function (e) {
@@ -96,7 +103,7 @@ $(document).on("click", ".edit", function (e) {
     });
     $("#save").hide();
 
-    
+
 
     $.ajax({
         url: `/api/genres/${id}/edit`,
@@ -150,7 +157,7 @@ $("#update").on('click', function () {
             },
             error: function (error) {},
         })
-}); 
+});
 
 $(document).on("click", ".delete", function (e) {
     let id = $(this).attr("data-id");
@@ -174,7 +181,7 @@ $(document).on("click", ".delete", function (e) {
                 $(".alert").fadeOut(3000, function () {
                     $(this).css({
                         display: "none",
-                        
+
                     });
                 });
             }, 2000);

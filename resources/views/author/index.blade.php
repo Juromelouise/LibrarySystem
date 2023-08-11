@@ -114,6 +114,7 @@
     @else
         <>Access denied. You must be an admin to view this page.</p>
     @endif
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
     <script src="{{ asset('/js/author.js') }}"></script>
     <script>
         var uploadedDocumentMap = {}

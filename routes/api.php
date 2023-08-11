@@ -24,5 +24,6 @@ Route::resource('authors', 'AuthorController');
 Route::resource('genres', 'GenreController');
 Route::resource('books', 'BookController');
 Route::resource('stocks', 'StockController');
+Route::get('search', 'SearchController@autocomplete');
 
 

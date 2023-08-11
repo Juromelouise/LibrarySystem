@@ -43,7 +43,7 @@
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-user-circle"></i>
                         CRUD
-                    </a>    
+                    </a>
                     <div class="dropdown-menu" aria-labelledby="crudDropdown">
                         <a class="dropdown-item" href="{{ route('genre.index') }}">Genre</a>
                         <a class="dropdown-item" href="{{ route('author.index') }}">Author</a>
@@ -80,7 +80,8 @@
                 <a class="nav-link" href="{{ route('viewCheckout') }}">
                     <i class="fa fa-book" aria-hidden="true" style="font-size:20px;color:#A4E9D5"></i>
                     <span class="text-color" style="color: #A4E9D5;">Checkout</span>
-                    <span class="badge badge-secondary">{{ Session::has('checkout') ? array_sum(array_column(Session::get('checkout'), 'quantity')) : '' }}</span>
+                    <span
+                        class="badge badge-secondary">{{ Session::has('checkout') ? array_sum(array_column(Session::get('checkout'), 'quantity')) : '' }}</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -90,9 +91,12 @@
                 </a>
             </li>
         </ul>
-        <form action="{{ route('books.search') }}" method="GET" class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" name="query" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+        <div class="ui-widget">
+            <form action="{{ route('books.search') }}" method="GET" class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" id="tags" type="search" name="term" placeholder="Search"
+                    aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
     </div>
 </nav>

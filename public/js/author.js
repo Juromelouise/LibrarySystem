@@ -1,5 +1,14 @@
 let table;
 $(function () {
+    $("#authorForm").validate({
+        rules: {
+            name: "required",
+            age: "required",
+            gender: {
+                required: true,
+            },
+        },
+    });
     table = $("#authorsTable").DataTable({
         ajax: {
             url: "/api/authors",
@@ -73,6 +82,7 @@ $(document).on("click", "#create", function (e) {
 });
 
 $("#save").on("click", function (e) {
+    if ($("#authorForm").valid()) {
     let formData = new FormData($("#authorForm")[0]);
     // for (var pair of formData.entries()) {
     //     console.log(pair[0] + ", " + pair[1]);
@@ -106,6 +116,7 @@ $("#save").on("click", function (e) {
         },
         error: function (error) {},
     });
+}
 });
 
 $(document).on("click", ".edit", function (e) {
@@ -125,7 +136,7 @@ $(document).on("click", ".edit", function (e) {
     });
     $("#save").hide();
 
-    
+
 
     $.ajax({
         url: `/api/authors/${id}/edit`,
@@ -191,7 +202,7 @@ $("#update").on('click', function () {
         },
         error: function (error) {},
     })
-}); 
+});
 
 $(document).on("click", ".delete", function (e) {
     let id = $(this).attr("data-id");
@@ -215,7 +226,7 @@ $(document).on("click", ".delete", function (e) {
                 $(".alert").fadeOut(3000, function () {
                     $(this).css({
                         display: "none",
-                        
+
                     });
                 });
             }, 2000);

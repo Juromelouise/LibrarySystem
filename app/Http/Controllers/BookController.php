@@ -189,21 +189,21 @@ class BookController extends Controller
         return response()->json([]);
     }
 
-    public function search(Request $request)
-    {
-        $query = $request->input('query');
+    // public function search(Request $request)
+    // {
+    //     $query = $request->input('query');
 
-        $books = Book::select('books.*', 'authors.name as author_name', 'genres.genre_name')
-            ->leftJoin('authors', 'books.author_id', '=', 'authors.id')
-            ->leftJoin('genres', 'books.genre_id', '=', 'genres.id')
-            ->where('books.title', 'like', '%' . $query . '%')
-            ->orWhere('authors.name', 'like', '%' . $query . '%')
-            ->orWhere('genres.genre_name', 'like', '%' . $query . '%')
-            ->orWhere('date_released', 'like', '%' . $query . '%')
-            ->get();
+    //     $books = Book::select('books.*', 'authors.name as author_name', 'genres.genre_name')
+    //         ->leftJoin('authors', 'books.author_id', '=', 'authors.id')
+    //         ->leftJoin('genres', 'books.genre_id', '=', 'genres.id')
+    //         ->where('books.title', 'like', '%' . $query . '%')
+    //         ->orWhere('authors.name', 'like', '%' . $query . '%')
+    //         ->orWhere('genres.genre_name', 'like', '%' . $query . '%')
+    //         ->orWhere('date_released', 'like', '%' . $query . '%')
+    //         ->get();
 
-        return view('book.search', ['books' => $books, 'query' => $query]);
-    }
+    //     return view('book.search', ['books' => $books, 'query' => $query]);
+    // }
 
     public function booktable(BookDataTable $dataTable)
     {

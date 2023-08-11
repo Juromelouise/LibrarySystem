@@ -4,12 +4,17 @@
 @endsection
 
 @section('content')
-    <h1>Search Results for "{{ $query }}"</h1>
+<h1>Search</h1>
 
-    <ul>
-        @foreach ($books as $book)
-        
-        <li><img src="{{url($book->imgpath)}}" alt="" width="150px" height="150px"> - -{{ $book->title }} by {{ $book->author_name }} ({{ $book->genre_name }}) - Released on {{ $book->date_released }}</li>
-    @endforeach
-    </ul>
+There are {{ $searchResults->count() }} results.
+
+@foreach($searchResults->groupByType() as $type => $modelSearchResults)
+   <h2>{{ $type }}</h2>
+   
+   @foreach($modelSearchResults as $searchResult)
+       <ul>
+            <li><a href="{{ $searchResult->url }}">{{ $searchResult->title }}</a></li>
+       </ul>
+   @endforeach
+@endforeach
 @endsection

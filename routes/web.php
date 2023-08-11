@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Auth;
 
 
 Auth::routes();
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
 Route::get('/', [Itemcontroller::class, 'getItems'])->name('getItems');
@@ -43,7 +43,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 Route::middleware(['auth'])->group(function () {
     Route::get('/transactions/download', 'DashboardController@download')->name('transactions.download');
     Route::get('/transactions/history', 'DashboardController@history')->name('user.history');
-    Route::get('/books/search', 'App\Http\Controllers\BookController@search')->name('books.search');
+    Route::get('/books/search', 'App\Http\Controllers\SearchController@search')->name('books.search');
     Route::get('/booktable', 'App\Http\Controllers\BookController@booktable')->name('books.table');
     Route::get('/stocktable', 'App\Http\Controllers\BookController@stocktable')->name('stock.table');
     Route::get('/authortable', 'App\Http\Controllers\AuthorController@authortable')->name('author.table');

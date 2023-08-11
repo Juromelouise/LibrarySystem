@@ -71,12 +71,13 @@
                         <button id="save" type="button" class="btn btn-primary">Save</button>
                         <button id="update" type="button" class="btn btn-primary">Update</button>
                     </div>
-                    
+
                 </div>
-                
+
             </div>
         </div>
         </div>
+        <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
         <script src="{{ asset('/js/genre.js') }}"></script>
     @else
         <p>Access denied. You must be an admin to view this page.</p>

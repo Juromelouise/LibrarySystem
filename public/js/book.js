@@ -1,5 +1,15 @@
 let table;
 $(function () {
+    $("#bookForm").validate({
+        rules: {
+            author_id: "required",
+            date_released: "required",
+            title: "required",
+            genre_id: {
+                required: true,
+            },
+        },
+    });
     table = $("#bookTable").DataTable({
         ajax: {
             url: "/api/books",
@@ -86,36 +96,38 @@ $(document).on("click", "#create", function (e) {
 });
 
 $("#save").on("click", function (e) {
-    let formData = new FormData($("#bookForm")[0]);
+    if ($("#bookForm").valid()) {
+        let formData = new FormData($("#bookForm")[0]);
 
-    $.ajax({
-        url: "/api/books",
-        type: "POST",
-        data: formData,
-        contentType: false,
-        processData: false,
-        headers: {
-            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-        },
-        dataType: "json",
-        success: function (data) {
-            $("#modalCUbook").modal("hide");
-            table.ajax.reload();
-            $(".alert")
-                .css({
-                    display: "block",
-                })
-                .html("Successfully Created");
-            setTimeout(function () {
-                $(".alert").fadeOut(3000, function () {
-                    $(this).css({
-                        display: "none",
+        $.ajax({
+            url: "/api/books",
+            type: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+            dataType: "json",
+            success: function (data) {
+                $("#modalCUbook").modal("hide");
+                table.ajax.reload();
+                $(".alert")
+                    .css({
+                        display: "block",
+                    })
+                    .html("Successfully Created");
+                setTimeout(function () {
+                    $(".alert").fadeOut(3000, function () {
+                        $(this).css({
+                            display: "none",
+                        });
                     });
-                });
-            }, 2000);
-        },
-        error: function (error) {},
-    });
+                }, 2000);
+            },
+            error: function (error) {},
+        });
+    }
 });
 
 function selectInputs(authors, genres) {

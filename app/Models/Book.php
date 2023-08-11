@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
 
-
-class Book extends Model implements HasMedia
+class Book extends Model implements HasMedia, Searchable
 {
     use HasFactory;
     use SoftDeletes;
@@ -54,4 +55,14 @@ class Book extends Model implements HasMedia
     // {
     //     return $this->belongsToMany(User::class, 'borrows');
     // }
+    public function getSearchResult(): SearchResult
+    {
+       $url = route('getItems');
+    
+        return new SearchResult(
+           $this,
+           $this->title,
+           $url
+        );
+    }
 }
