@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Auth;
 Auth::routes();
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-
+Route::view('/chart', 'admin.chart')->name('genre.index');
 Route::get('/', [Itemcontroller::class, 'getItems'])->name('getItems');
 Route::get('add/{id}', [ItemController::class, 'addToCheckout'])->name('item.addcheckout');
 Route::get('/cart', [ItemController::class, 'viewCheckout'])->name('viewCheckout');
@@ -47,7 +47,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/booktable', 'App\Http\Controllers\BookController@booktable')->name('books.table');
     Route::get('/stocktable', 'App\Http\Controllers\BookController@stocktable')->name('stock.table');
     Route::get('/authortable', 'App\Http\Controllers\AuthorController@authortable')->name('author.table');
-    
+
     Route::post('genre/import', 'GenreController@import')->name('genre.import');
     Route::post('author/import', 'AuthorController@import')->name('author.import');
     Route::post('/media/book', 'BookController@storeMedia')->name('book.storeMedia');
