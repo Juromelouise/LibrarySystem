@@ -12,7 +12,7 @@ class SearchController extends Controller
     public function search(Request $request)
     {
         $searchResults = (new Search())
-            ->registerModel(Book::class, ['title',''])
+            ->registerModel(Book::class, ['title'])
             ->search(trim($request->term));
         return View::make('book.search', compact('searchResults'));
     }

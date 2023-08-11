@@ -59,11 +59,12 @@ class Book extends Model implements HasMedia, Searchable
     public function getSearchResult(): SearchResult
     {
        $url = route('moreinfo', $this->id);
+    //    $date = $this->date_released;
 
         return new SearchResult(
            $this,
-           $this->title,
-           $url
+            $this->title . " -> Date Released: " . $this->date_released,
+           $url,
         );
     }
 }

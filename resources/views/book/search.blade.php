@@ -12,13 +12,13 @@
 </style>
 
 <div class="container">
-    <h1>Search  </h1>
-
     <div class="search-results">
+        @if( $searchResults->count()>1)
         <p class="search-header">There are {{ $searchResults->count() }} results.</p>
-
+        @else
+        <p class="search-header">There are {{ $searchResults->count() }} result.</p>
+        @endif
         @foreach($searchResults->groupByType() as $modelSearchResults)
-        {{-- {{dd($searchResults);}} --}}
            <div class="result-type">Books
            </div>
 
