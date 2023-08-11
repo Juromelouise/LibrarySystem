@@ -1,0 +1,22 @@
+.book-info-container {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.book-info {
+    max-width: 40%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #75cbe3;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.book-img {
+    height: 470px;
+    width: 100%;
+    display: block;
+    margin: 0 auto;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

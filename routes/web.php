@@ -6,6 +6,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderConfirmationController;
+use App\Http\Controllers\Searchcontroller;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -27,7 +28,10 @@ use Illuminate\Support\Facades\Auth;
 Auth::routes();
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::view('/chart', 'admin.chart')->name('genre.index');
+Route::view('/chart', 'admin.chart')->name('chart');
+Route::get('/moreinfo/{id}', [Searchcontroller::class, 'moreinfobook'])->name('moreinfo');
+Route::get('/books/search', 'App\Http\Controllers\SearchController@search')->name('books.search');
+
 Route::get('/', [Itemcontroller::class, 'getItems'])->name('getItems');
 Route::get('add/{id}', [ItemController::class, 'addToCheckout'])->name('item.addcheckout');
 Route::get('/cart', [ItemController::class, 'viewCheckout'])->name('viewCheckout');
@@ -43,7 +47,6 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 Route::middleware(['auth'])->group(function () {
     Route::get('/transactions/download', 'DashboardController@download')->name('transactions.download');
     Route::get('/transactions/history', 'DashboardController@history')->name('user.history');
-    Route::get('/books/search', 'App\Http\Controllers\SearchController@search')->name('books.search');
     Route::get('/booktable', 'App\Http\Controllers\BookController@booktable')->name('books.table');
     Route::get('/stocktable', 'App\Http\Controllers\BookController@stocktable')->name('stock.table');
     Route::get('/authortable', 'App\Http\Controllers\AuthorController@authortable')->name('author.table');

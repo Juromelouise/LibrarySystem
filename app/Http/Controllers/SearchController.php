@@ -6,24 +6,14 @@ use Illuminate\Http\Request;
 use App\Models\Book;
 use Spatie\Searchable\Search;
 use Illuminate\Support\Facades\View;
-use Spatie\Searchable\ModelSearchAspect;
 
 class SearchController extends Controller
 {
     public function search(Request $request)
     {
         $searchResults = (new Search())
-            ->registerModel(Book::class, ['title'])
-            ->search(trim($request->term)); 
-
-        // $searchResults = (new Search())
-        //     ->registerModel(Book::class, function (ModelSearchAspect $modelSearchAspect) use ($request) {
-        //         $modelSearchAspect
-        //             // ->addExactSearchableAttribute('title')
-        //             ->addSearchableAttribute('title')
-        //             ->search($request->term);
-        //     });
-        // dd($searchResults);
+            ->registerModel(Book::class, ['title',''])
+            ->search(trim($request->term));
         return View::make('book.search', compact('searchResults'));
     }
 
@@ -31,5 +21,10 @@ class SearchController extends Controller
     {
         $book = Book::pluck('title');
         return response()->json($book);
+    }
+
+    public function moreinfobook($id){
+        $books = Book::with(['author', 'genre','media'])->where('id', $id)->first();
+        return View::make('search.moreinfo', compact('books'));
     }
 }

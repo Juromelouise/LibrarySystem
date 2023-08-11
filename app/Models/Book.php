@@ -18,6 +18,7 @@ class Book extends Model implements HasMedia, Searchable
     use InteractsWithMedia;
 
     protected $fillable = ['author_id', 'title', 'date_released'];
+    // protected $table = "books";
 
     public function borrows()
     {
@@ -57,8 +58,8 @@ class Book extends Model implements HasMedia, Searchable
     // }
     public function getSearchResult(): SearchResult
     {
-       $url = route('getItems');
-    
+       $url = route('moreinfo', $this->id);
+
         return new SearchResult(
            $this,
            $this->title,

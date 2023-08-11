@@ -12,7 +12,11 @@
       @foreach ($book as $item)
         <div class="col-sm-6 col-md-4">
           <div class="card mb-4 shadow-sm">
-            <img class="card-img-top" src="{{ $item->imgpath }}" alt="Book Cover" style="height: 450px; width: 100%; display: block;">
+            @if(count($item->media)>0)
+            <img class="card-img-top" src="{{ $item->media[0]?->original_url}}" alt="Book Cover" style="height: 450px; width: 100%; display: block;">
+            @else
+            <img class="card-img-top" src="{{ $item->imgpath}}" alt="Book Cover" style="height: 450px; width: 100%; display: block;">
+            @endif
             <div class="card-body">
               <h4 class="card-title">{{ $item->title }}</h4>
               <p class="card-text"><strong>Genre: </strong>{{ $item->genre->genre_name }}</p>
@@ -25,7 +29,7 @@
                   @if(Session::has('checkout') && isset(Session::get('checkout')[$item->id]))
                     <span class="badge badge-pill badge-primary">{{ Session::get('checkout')[$item->id]['quantity'] }}</span>
                   @endif
-                  {{-- <a href="#" class="btn btn-sm btn-outline-secondary"><i class="fas fa-info"></i> More Info</a> --}}
+                  <a href="{{route('moreinfo',$item->id)}}" class="btn btn-sm btn-outline-secondary"><i class="fas fa-info"></i> More Info</a>
                 </div>
               </div>
             </div>

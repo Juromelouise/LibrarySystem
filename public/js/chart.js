@@ -15,10 +15,11 @@ $(function () {
     });
 });
 
+let bookchart
 function numBorrowBook(data) {
     console.log(data);
     const ctx = document.getElementById("myChart");
-    new Chart(ctx, {
+  bookchart =  new Chart(ctx, {
         type: "bar",
         data: {
             labels: Object.keys(data),

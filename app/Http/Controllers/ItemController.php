@@ -85,17 +85,7 @@ class ItemController extends Controller
                 $query->where('stock', '>', 0);
             })
             ->get();
-
-        // dd($books);
-        // $books = Book::select('books.id as id', 'title', 'date_released', 'genre_name', 'imgpath', 'name', 'deleted_at', 'stock')
-        //     ->join('authors as a', 'a.id', '=', 'books.author_id')
-        //     ->join('genres as g', 'g.id', '=', 'books.genre_id')
-        //     ->join('stocks as s', 's.book_id', '=', 'books.id')
-        //     ->withTrashed()
-        //     // ->whereNull('books.deleted_at')
-        //     ->where('s.stock', '>', 0) // Add this condition to fetch books with stock
-        //     ->get();
-
+            // dd($books);
         return view('dashboard.index', compact('books'));
     }
 

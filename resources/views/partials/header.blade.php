@@ -62,20 +62,19 @@
                         </div>
                     </div>
             @endif
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('user.history') }}">
-                    <i class="fas fa-user-circle"></i>
-                    History
-                </a>
-            </li>
         </ul>
         <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('most.used') }}">
-                    <i class="fa-solid fa-thumbs-up"></i>
-                    Most Used
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="crudDropdown" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="bi bi-flag"></i>
+                    Reports
                 </a>
-            </li>
+                <div class="dropdown-menu" aria-labelledby="crudDropdown">
+                    <a class="dropdown-item" href="{{ route('user.history') }}">History</a>
+                    <a class="dropdown-item" href="{{ route('most.used') }}">Most Used</a>
+                    <a class="dropdown-item" href="{{ route('chart') }}">Chart</a>
+                    <div class="dropdown-divider"></div>
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('viewCheckout') }}">
                     <i class="fa fa-book" aria-hidden="true" style="font-size:20px;color:#A4E9D5"></i>
