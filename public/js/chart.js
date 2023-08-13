@@ -15,6 +15,24 @@ $(function () {
     });
 });
 
+$(function () {
+    $.ajax({
+        url: `/api/userBorrowChart`,
+        type: "GET",
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-tokens"]').attr("content"),
+        },
+        dataType: "json",
+        success: function (data) {
+            console.log(data)
+            userBorrowBook(data);
+        },
+        error: function (error) {
+            alert("error");
+        },
+    });
+});
+
 let bookchart
 function numBorrowBook(data) {
     console.log(data);
@@ -46,26 +64,26 @@ function numBorrowBook(data) {
     });
 }
 
-// function numBorrowBook() {
-//     const ctx = document.getElementById("myChart");
-//     new Chart(ctx, {
-//         type: "bar",
-//         data: {
-//             labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-//             datasets: [
-//                 {
-//                     label: "# of Votes",
-//                     data: [12, 19, 3, 5, 2, 3],
-//                     borderWidth: 1,
-//                 },
-//             ],
-//         },
-//         options: {
-//             scales: {
-//                 y: {
-//                     beginAtZero: true,
-//                 },
-//             },
-//         },
-//     });
-// }
+function userBorrowBook(data) {
+    const ctx = document.getElementById("myChart1");
+    new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: Object.keys(data),
+            datasets: [
+                {
+                    label: "Number of User Borrowed Books",
+                    data: Object.values(data),
+                    borderWidth: 4,
+                },
+            ],
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                },
+            },
+        },
+    });
+}

@@ -26,5 +26,6 @@ Route::resource('books', 'BookController');
 Route::resource('stocks', 'StockController');
 Route::get('search', 'SearchController@autocomplete');
 Route::get('bookchart', 'ChartController@bookChart');
+Route::get('userBorrowChart', 'ChartController@userBorrowChart');
 
 
