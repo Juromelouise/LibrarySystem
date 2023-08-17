@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
+use App\Imports\BookImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BookController extends Controller
 {
@@ -228,5 +230,11 @@ class BookController extends Controller
             "name" => $name,
             "original_name" => $file->getClientOriginalName(),
         ]);
+    }
+    public function import(Request $request)
+    {
+        Excel::import(new BookImport, $request->excel);
+
+        return redirect()->back();
     }
 }

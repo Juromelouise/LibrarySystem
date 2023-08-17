@@ -151,7 +151,7 @@ class ItemController extends Controller
 
                 $bookToStock = Stock::where('book_id', $bookID)->first();
                 if ($bookToStock) {
-                    $bookToStock->stock -= $value["quantity"]; // Decrement the stock column
+                    $bookToStock->stock -= $value["quantity"];
                     $bookToStock->save();
                 }
             }

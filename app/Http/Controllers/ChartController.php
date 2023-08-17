@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Book;
 use App\Models\Borrow;
 use App\Models\User;
+use App\Models\Genre;
+use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Support\Facades\DB;
 
 class ChartController extends Controller
@@ -30,5 +32,17 @@ class ChartController extends Controller
         return response()->json($borrowCounts);
     }
 
+    public function mostUsedGenre()
+    {
+        $genre = Genre::with(['books'])->get();
 
+        $mostUseGenre = [];
+
+        foreach ($genre as $genre) {
+            $mostUseGenre[$genre->genre_name] = count($genre->books);
+        }
+        Debugbar::info($mostUseGenre);
+
+        return response()->json($mostUseGenre);
+    }
 }

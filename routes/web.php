@@ -55,6 +55,7 @@ Route::middleware(['auth','role:1'])->group(function () {
     Route::prefix('admin')->group(function (){
     Route::post('genre/import', 'GenreController@import')->name('genre.import');
     Route::post('author/import', 'AuthorController@import')->name('author.import');
+    Route::post('book/import', 'BookController@import')->name('book.import');
     Route::post('/media/book', 'BookController@storeMedia')->name('book.storeMedia');
     Route::post('/media/author', 'AuthorController@storeMedia')->name('author.storeMedia');
     Route::post('/media/stock', 'StockController@storeMedia')->name('stock.storeMedia');

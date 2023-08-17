@@ -27,5 +27,4 @@ Route::resource('stocks', 'StockController');
 Route::get('search', 'SearchController@autocomplete');
 Route::get('bookchart', 'ChartController@bookChart');
 Route::get('userBorrowChart', 'ChartController@userBorrowChart');
-
-
+Route::get('mostusedgenre', 'ChartController@mostUsedGenre');

@@ -17,7 +17,7 @@ class Book extends Model implements HasMedia, Searchable
     use SoftDeletes;
     use InteractsWithMedia;
 
-    protected $fillable = ['author_id', 'title', 'date_released'];
+    protected $fillable = ['author_id', 'title', 'date_released','nums','genre_id','imgpath'];
     // protected $table = "books";
 
     public function borrows()

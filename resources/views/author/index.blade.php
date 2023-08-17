@@ -36,6 +36,7 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                
                                 {{-- @foreach ($authors as $author)
                                     <tr>
                                         <td>{{ $author->name }}</td>
