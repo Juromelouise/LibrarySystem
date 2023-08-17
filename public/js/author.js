@@ -170,9 +170,9 @@ $(document).on("click", ".edit", function (e) {
 $("#update").on('click', function () {
     let id = $(this).attr("data-id");
     let formData = new FormData($('#authorForm')[0]);
-    for (var pair of formData.entries()) {
-        console.log(pair[0] + ', ' + pair[1]);
-    }
+    // for (var pair of formData.entries()) {
+    //     console.log(pair[0] + ', ' + pair[1]);
+    // }
     formData.append('_method', 'PUT');
     $.ajax({
         url: `/api/authors/${id}`,

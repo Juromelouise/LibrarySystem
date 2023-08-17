@@ -116,7 +116,7 @@ class AuthorController extends Controller
     public function import(Request $request)
     {
         Excel::import(new AuthorImport, $request->excel);
-    
+
         return redirect()->route('author.index');
     }
 }

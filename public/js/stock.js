@@ -1,5 +1,11 @@
 let table;
 $(function () {
+    $("#stockForm").validate({
+        rules: {
+            book_id: "required",
+            stock: "required",
+        },
+    });
     table = $("#stockTable").DataTable({
         ajax: {
             url: "/api/stocks",
@@ -10,7 +16,7 @@ $(function () {
         autoWidth: false,
         dom: "Bfrtip",
         columns: [
-            
+
             {
                 data: "id",
             },
@@ -64,14 +70,14 @@ $(document).on("click", "#create", function (e) {
         dataType: "json",
         success: function (data) {
             console.log(data);
-            
+
             $('#book-select').show()
             $('#book-label').show()
             // console.log(data);
             $('select').empty();
             $('#book-select').append($('<option>').attr({ "value": "" }).html('Select Books Title'))
             selectInputs(data)
-            
+
         },
         error: function (error) {
             alert("error");
@@ -92,6 +98,7 @@ function selectInputs(data) {
 }
 
 $("#save").on("click", function (e) {
+    if ($("#stockForm").valid()) {
     let formData = new FormData($("#stockForm")[0]);
     for (var pair of formData.entries()) {
         console.log(pair[0] + ', ' + pair[1]);
@@ -124,6 +131,7 @@ $("#save").on("click", function (e) {
         },
         error: function (error) {},
     });
+}
 });
 
 $(document).on('click', '.edit', function () {
@@ -195,7 +203,7 @@ $("#update").on('click', function () {
             alert(error)
         },
     })
-}); 
+});
 $(document).on("click", ".delete", function (e) {
     let id = $(this).attr("data-id");
     alert("Delete?");
@@ -218,7 +226,7 @@ $(document).on("click", ".delete", function (e) {
                 $(".alert").fadeOut(3000, function () {
                     $(this).css({
                         display: "none",
-                        
+
                     });
                 });
             }, 2000);
