@@ -53,21 +53,31 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware(['auth','role:1'])->group(function () {
     Route::prefix('admin')->group(function (){
+        //Route for Imports
     Route::post('genre/import', 'GenreController@import')->name('genre.import');
     Route::post('author/import', 'AuthorController@import')->name('author.import');
     Route::post('book/import', 'BookController@import')->name('book.import');
+    Route::post('stock/import', 'StockController@import')->name('stock.import');
+
+    //Route for Media Library
     Route::post('/media/book', 'BookController@storeMedia')->name('book.storeMedia');
     Route::post('/media/author', 'AuthorController@storeMedia')->name('author.storeMedia');
     Route::post('/media/stock', 'StockController@storeMedia')->name('stock.storeMedia');
     Route::post('/media/genre', 'GenreController@storeMedia')->name('genre.storeMedia');
+
+    //Route for JQuery Data Tables
     Route::view('/authors', 'author.index')->name('author.index');
     Route::view('/genres', 'genre.index')->name('genre.index');
     Route::view('/books', 'book.index')->name('book.index');
     Route::view('/stocks', 'stock.index')->name('stock.index');
     Route::resource('user', 'UserController');
+
+    //Route for Transaction Update
     Route::get('/confirmation', 'App\Http\Controllers\OrderConfirmationController@orderconfirmation')->name('order.confirmation');
     Route::get('/confirm/{id}', 'App\Http\Controllers\OrderConfirmationController@confirm')->name('order.confirm');
     Route::get('/cancel/{id}', 'App\Http\Controllers\OrderConfirmationController@cancel')->name('order.cancel');
+
+    //Route for Yajra Data Tables
     Route::get('/booktable', 'App\Http\Controllers\BookController@booktable')->name('books.table');
     Route::get('/stocktable', 'App\Http\Controllers\BookController@stocktable')->name('stock.table');
     Route::get('/authortable', 'App\Http\Controllers\AuthorController@authortable')->name('author.table');

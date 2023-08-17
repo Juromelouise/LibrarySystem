@@ -7,6 +7,8 @@ use App\Models\Stock;
 use DB;
 use Illuminate\Http\Request;
 use View;
+use App\Imports\StockImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class StockController extends Controller
 {
@@ -111,5 +113,11 @@ class StockController extends Controller
             "name" => $name,
             "original_name" => $file->getClientOriginalName(),
         ]);
-    }           
+    }
+    public function import(Request $request)
+    {
+        Excel::import(new StockImport, $request->excel);
+
+        return redirect()->back();
+}
 }

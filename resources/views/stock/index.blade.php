@@ -18,6 +18,12 @@
         </div>
     <div class="container">
         <div class="row justify-content-center">
+            <div class="row justify-content-center">
+                <form action="{{ route('stock.import') }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <input type="file" id="uploadName" class="form-control" name="excel" required>
+                    <button type="submit" class="btn btn-info btn-primary">Import Excel File</button>
+                </form>
             <div class="col-md-8">
                 <div class="card">
                     <table id="stockTable" class="table">
@@ -74,7 +80,7 @@
             </div>
         </div>
     </div>
-    
+
     <script src="{{ asset('/js/stock.js') }}"></script>
     @else
         <p>Access denied. You must be an admin to view this page.</p>

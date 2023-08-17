@@ -12,11 +12,13 @@ class Stock extends Model implements HasMedia
 {
     use HasFactory;
     use InteractsWithMedia;
-    
+
+    public $fillable = ['book_id','stock'];
+
     public function book()
     {
         return $this->belongsTo(Book::class);
-    }  
+    }
     public function registerMediaConversions(Media $media = null): void
 {
     $this->addMediaConversion('thumb')
